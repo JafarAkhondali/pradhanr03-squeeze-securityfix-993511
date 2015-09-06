@@ -1,6 +1,5 @@
 $(document).ready( function () {
-   $("#butt").on('click', function() {
-console.log('clicked');
+   // $('#sendmail').click(mail);
     // Prevent default anchor click behavior
     // event.preventDefault();
 
@@ -27,12 +26,15 @@ $(window).bind('scroll',function(e){
 // window.addEventListener("scroll", parallax, false);
 
 
-});
+
+
+
+
 
 function parallaxScroll(){
         var scrolledY = $(window).scrollTop();
        
-        $('#pic1').css('top','-'+((scrolledY*0.36))+'px');
+        $('#pic1').css('top','-'+((scrolledY*0.41))+'px');
         
     }
 
@@ -42,3 +44,19 @@ function parallaxScroll(){
 //   layer1.style.top = -(window.pageYOffset/2.8)+'px';
   
 // }
+
+// var mail = function() {
+//     console.log('hello');
+//  $.ajax({
+//             type: "POST",
+//             url: '/nodemailer',
+//             // data: data,
+//            success: function(){
+            
+//            },
+//            fail: function(){
+         
+//            }
+//           });
+
+// };
