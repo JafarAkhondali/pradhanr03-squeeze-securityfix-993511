@@ -2,6 +2,7 @@ var root = __dirname;
 var express = require('express');
 // var fs = require('fs');
 var app = express();
+var http = require("http");
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var methodOverride = require('method-override');
@@ -10,9 +11,11 @@ var path = require('path');
 
 var router = express.Router();
 
-
+var http = require('http').Server(app);
 
 app.set('port', (process.env.PORT || 3000));
+
+
 app.listen(app.get('port'), function () {
   console.log("App running on port : ", app.get('port'));
 });
@@ -40,6 +43,9 @@ app.use(methodOverride(function(req, res) {
 
 
 
+
+
+
 // fs.readdirSync('./controllers').forEach(function (file) {
 //  if(file.substr(-3) == '.js') {
 //      route = require('./controllers/' + file);
@@ -47,4 +53,19 @@ app.use(methodOverride(function(req, res) {
 //      route.controller(app);
 //  };
 // });
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
 
