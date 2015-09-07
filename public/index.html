@@ -532,7 +532,7 @@
 
 <div id="section1" class="container-fluid">
   <h1>About Me</h1>
-  <p>Hello  My name is Rubina Pradhan. I am a web developer or full stack developer currently based in NYC. I love to code and tackle challenging problems. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, PostGreSQL, Ruby on Rails, Bootstrap, CSS3, HTML5, Ajax, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from web development immersive program from General Assembly in New York and I've learned alot from such a short period of time from extremely talented instructors.</p>
+  <p>Hello  My name is Rubina Pradhan. I am a web developer or full stack developer currently based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, PostGreSQL, Ruby on Rails, Bootstrap, CSS3, HTML5, Ajax, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from web development immersive program from General Assembly in New York and I've learned alot from such a short period of time from extremely talented instructors.</p>
   <p>When I'm not coding excluding my long commute in the subways, I am exploring the nature. I love to run, swim, hike, bike, etc. Yes, in that order ;) </p>
 
   <p>You think I've got what it takes to make your idea come to life? Maybe you just like my sweet parallax in the backrgound and would like to chat with me? Drop a message and I'll make sure to get in touch as soon as possible.</p>
@@ -562,10 +562,24 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Wicki</h4>
         </div>
         <div class="modal-body">
-          <p><a href="http://google.com"><img src="/assets/images/brick.jpg" style="width:200px; height:200px;" /></a></p>
+          <div class="img">
+          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <p><a href="http://wicki.herokuapp.com" target="_blank">Launch Website</a></p>
+          </div>
+          <div class="description">
+          <p> Wicki was one of my first full stack web app project I built using JavaScript after learning JavaScript for 4 weeks without prior programming experience. It's a web-based, free-content encyclopedia project. This project was highly influenced by the wikipedia website based on a model of openly editable content. This is a multi-routed web app built on Node.js, Express and it's routers.</p>
+          <p> I wanted this web app to have a simple and basic wireframe where all the tabs goes on the header and content in the center of the body. I used flexbox to make my CSS process to go smooth.</p>
+          	<ul>
+	         	<li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
+				<li>Built RESTful API routes using Node and Express that displayed and retrieved the JSON data from the browser and vice-versa from the database using custom built ORM, models and controllers.</li>
+				<li>Used jQuery to display a random and featured object page from the actual wikipedia page.</li>
+				<li>Used express-sessions for user authentication</li>
+				<li>The following tools like jQuery, PostgreSQL, JavaScript, Node.js, express, express-sessions and several Node.js library module were used to build this project.</li>
+			</ul>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -582,7 +596,22 @@
           <h4 class="modal-title">Modal 2</h4>
         </div>
         <div class="modal-body">
-          <p><a href="http://google.com">Hello</a></p>
+         <div class="img">
+          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <p><a href="http://sosnowapp.herokuapp.com" target="_blank">Launch Website</a></p>
+          </div>
+          <div class="description">
+          <p> SOS was my first full stack web app group project that we built using Ruby on Rails after learning ROR for 2 weeks. It's a non-profit web application that is aimed to help the victims of natural disasters. This is a single page app built on ROR using Backbone.js, jQuery, JavaScript, Ruby, Handlebars, PostgreSQL, Ajax, google maps API, twitter API. The web application geolocates the victim's location and sends out a SOS in the application and twitter page where the volunteers can search for the victims in the app. It also uses twitter API to send out SOS posts in the twitter page for our web app.</p>
+          <p>As a group we did a lot of pair programming and help each other with debugging issues but mainly my part in the group project was as follows:</p>
+          	<ul>
+	         	<li>Built back-end of the web-app by creating user authentication, sign in and log in using rails sessions for volunteers</li>
+	         	<li>Built server side MVC and client side MVC for user authentication</li>
+				<li>Created templates for the models and modals using handlebars</li>
+				<li>Built front-end of the web app by building client side MVC's like BackboneJS, Ajax, jQuery, CSS and wireframe for the templates</li>
+				<li>Used a combination of BackboneJS and Ajax to render the data from PostgreSql database to the modal template and the seeker template</li>
+				
+			</ul>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -600,7 +629,28 @@
           <h4 class="modal-title">Modal 3</h4>
         </div>
         <div class="modal-body">
-          <p><a href="http://google.com"><img src="/assets/images/cap1.png" style="width:200px; height:200px;" /></a></p>
+         <div class="img">
+          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <p><a href="http://skincarex.herokuapp.com" target="_blank">Launch Website</a></p>
+          </div>
+          <div class="description">
+          <p> SkinCareX was my final full stack web app project I built during a time period of 1 week. I chose to build a e-commerce site to showcase my programming skills in a realistic web-app for potential clients. Since, single page web app is so popular, I decided to do this web app a single page app as well. This app is slightly different than regular ecommerce site. It is more focused on a client's company and their products. I made separate tabs for information section on the company, products, science(the behind the scenes on how the scientist invented the product) and a section on skin. Customers can sign up, log in and buy products. I built a dummy payment template where the checkout takes any payment and runs any transaction successfully. But in reality, I would use paypal or stripe API for real web apps. I mainly chose to do this web app in Node.Js framework instead of ROR because I wanted to implement a chat application for customer service feature using sockets.io.</p>
+          <p>The list of things that were implemented to build this app are as follows:</p>
+          	<ul>
+	         	<li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
+	         	<li>Used BackboneJS to create collections of the products, products from different categories and render it in the products template.</li>
+				<li>created modals for individual products using BackboneJS</li>
+				<li>Used Ajax request in the Add To Cart button, where it stores the product item in sessionStorage and render the items in the cart template</li>
+				<li>Used localStorage to store shipping address, billing address and total price.</li>
+				<li>Used CSS3D, canvas, WebGL molecule renderer, a 3D JavaScript library from Mr.doob https://github.com/mrdoob/three.js/ in the science page template to create user interactive experience with molecules of the product</li>
+				<li>Used sockets.io to have a real time customer service chat experience</li>
+				<li>Used google maps API to find a nearby dermatologist in the customers location</li>
+				<li>Used parallax in the skin explained page template to create a fun experience on learning about the skin.</li>
+				<li>Used express-sessions for user authentication</li>
+				<li>Created client side MVC for BackboneJS and server side MVC with custom built ORM's to get a custom JSON to render the data in the templates</li>
+				<li>The following tools like jQuery, Ajax, PostgreSQL, JavaScript, Node.js, express, express-sessions, BackboneJS, sockets.io, google maps API, 3D JavaScript library from mrdoob, sessionStorage, localStorage and parallax feature were used to build this project.</li>
+			</ul>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

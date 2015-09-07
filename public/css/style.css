@@ -97,7 +97,17 @@ body {
   height: 400px;
   background-color: white;
   margin-bottom: 0px;
-  /*margin-top: 50px;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  overflow-y:scroll; 
+
+
+}
+
+.description {
+  width: 60%;
+  height: 100%;
 }
 
 /*
@@ -177,7 +187,7 @@ body {
      position: relative;
      top: 50px;
   }
-  #section1 {padding-top:40px;height:500px; width:500px; color: #fff; margin-left: 3%;} 
+  #section1 {padding-top:40px;height:500px; width:500px; color: #505050 ; margin-left: 3%;} 
 
   #section4 {
   /*  padding-top:300px;*/
