@@ -2,6 +2,8 @@ var root = __dirname;
 var express = require('express');
 // var fs = require('fs');
 var app = express();
+var dotenv = require('dotenv');
+dotenv.load();
 var http = require("http");
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
@@ -12,6 +14,12 @@ var path = require('path');
 var router = express.Router();
 
 var http = require('http').Server(app);
+
+
+
+// var key = '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';
+var sendkey = process.env.SECRET_KEY;
+var sendgrid = require('sendgrid')(sendkey);
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -54,7 +62,25 @@ app.use(methodOverride(function(req, res) {
 //  };
 // });
 
+var email     = new sendgrid.Email({
+  to:       'pradhanr03@gmail.com',
+  from:     'daveonchaos@yahoo.com',
+  subject:  'Subject goes here',
+  text:     'Hello world'
+});
 
+
+app.post('/send', function(req, res) {
+      
+          sendgrid.send(email, function(err, json) {
+  if (err) { return res.send('nope'); }
+  res.send('yay');
+});
+
+    
+
+
+  });
 
 
 
