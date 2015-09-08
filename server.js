@@ -17,7 +17,7 @@ var http = require('http').Server(app);
 
 
 
-// var key = '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';
+
 var sendkey = process.env.SECRET_KEY;
 var sendgrid = require('sendgrid')(sendkey);
 
