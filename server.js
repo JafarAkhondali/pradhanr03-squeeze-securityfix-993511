@@ -62,15 +62,29 @@ app.use(methodOverride(function(req, res) {
 //  };
 // });
 
-var email     = new sendgrid.Email({
-  to:       'pradhanr03@gmail.com',
-  from:     'daveonchaos@yahoo.com',
-  subject:  'Subject goes here',
-  text:     'Hello world'
-});
+
 
 
 app.post('/send', function(req, res) {
+	var mail =req.body.mail;
+	var message=req.body.message;
+
+	var revString = mail.split('').reverse().join('');
+	var rev= revString.slice(4,9);
+	var string = rev.split('').reverse().join('');
+
+	if (string ==='yahoo') {
+		res.send('Due to yahoo policy, yahoo doesnt allow third party email handlers to send email. So please enter an email address that is not yahoo.com');
+	}
+else {
+
+var email     = new sendgrid.Email({
+  to:       'pradhanr03@gmail.com',
+  from:     mail,
+  subject:  'Subject goes here',
+  text:     message
+});
+}
       
           sendgrid.send(email, function(err, json) {
   if (err) { return res.send('nope'); }
