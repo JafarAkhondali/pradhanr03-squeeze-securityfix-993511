@@ -2,11 +2,13 @@ body {
 	background: url(../assets/images/portfolio.jpg) no-repeat;
 	background-size: 100% 2712px;
   background-color: darkgrey;
-	width: 1285px;
-	height: 2712px;
+	/*width: 1285px;*/
+  width: 100%;
+	height: 3060px;
 	overflow-y: scroll;
 	margin-left: 0px;
 	margin-right: 0px;
+
   
 }
 
@@ -14,13 +16,7 @@ body {
   margin-top: 443px;
 }
 
-#project {
-/*  width: 80%;
-  height: 300px;
-  background-color: white;
-  margin-bottom: 0px;*/
-  /*margin-top: 60px;*/
-}
+
 
 #mail {
   width: 80%;
@@ -28,6 +24,11 @@ body {
 
   margin-bottom: 0px;
   margin-top: 60px;
+}
+
+#project {
+position: static;
+
 }
 
 #port{
@@ -39,9 +40,11 @@ body {
   padding-top: 220px;
   margin-bottom: 0px;
   margin-top: 45%;
- 
-
-
+  position: absolute;
+  left:0;
+  right:0;
+  /*top: 100px;*/
+  bottom: 15%;
 }
 
 
@@ -233,16 +236,18 @@ body {
 
   .affix {
       top:0;
-      width: 100%;
+      width: 99.9%;
       z-index: 9999 !important;
   }
   .navbar {
       margin-bottom: 0px;
+     /* width: 100%;*/
   }
 
   .affix ~ .container-fluid {
      position: relative;
      top: 50px;
+
   }
   #section1 {padding-top:40px;height:500px; width:500px; color: #505050 ; margin-left: 3%;} 
 
@@ -264,9 +269,19 @@ body {
    	
   }
 
+#bottom {
+  /*width: 100%;*/
+  position: static;
+  bottom:0;
+  margin-bottom: 0;
+/*  top: 16%;*/
+  
+}
 
 
-  .footer-distributed{
+
+ #bottom .footer-distributed{
+
   background-color: #292c2f;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
@@ -275,8 +290,12 @@ body {
   text-align: left;
 
   padding: 50px 60px 40px;
-  margin-top: 120px;
+  /*margin-top: 120px;*/
   overflow: hidden;
+       position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
 }
 
 /* Footer left */
