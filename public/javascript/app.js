@@ -1,4 +1,6 @@
 $(document).ready( function () {
+  
+$('#send').click(mail);
    // $('#sendmail').click(mail);
     // Prevent default anchor click behavior
     // event.preventDefault();
@@ -45,18 +47,33 @@ function parallaxScroll(){
   
 // }
 
-// var mail = function() {
-//     console.log('hello');
-//  $.ajax({
-//             type: "POST",
-//             url: '/nodemailer',
-//             // data: data,
-//            success: function(){
-            
-//            },
-//            fail: function(){
-         
-//            }
-//           });
+var mail = function() {
+    console.log('hello');
+    var data = {
+           mail: $('[name=mail]').val(),
+           message: $('[name=message]').val()
+    }
 
-// };
+   $('[name=mail]').val('');
+    $('[name=message]').val('');
+
+
+   
+ $.ajax({
+            type: "POST",
+            url: '/send',
+            data: data,
+           success: function(){
+
+            
+            $('#popup').html('Thank you for the email :)');
+        $("#popup").delay(2000).fadeOut("slow", function () { $(this).remove(); });
+
+
+           },
+           fail: function(){
+         
+           }
+          });
+
+};

@@ -47,24 +47,67 @@ body {
 
 
 .project1 {
-  background: url(../assets/images/sosnow.png) no-repeat;
+  background: url(../assets/images/wicki.jpg) no-repeat;
+  background-size: 300px 300px; 
+  width: 300px;
+  height: 300px;
+
+}
+
+.project1:hover {
+  background: url(../assets/images/wicki.jpg) no-repeat;
+  background-size: 300px 300px; 
+  width: 300px;
+  height: 300px;
+
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+
+}
+
+
+.project2 {
+  background: url(../assets/images/sos.jpg) no-repeat;
   background-size: 300px 300px; 
   width: 300px;
   height: 300px;
 }
 
-.project2 {
-  background: url(../assets/images/sosnow.png) no-repeat;
+
+.project2:hover {
+  background: url(../assets/images/sos.jpg) no-repeat;
   background-size: 300px 300px; 
   width: 300px;
   height: 300px;
+
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
 }
 
 .project3 {
-  background: url(../assets/images/sosnow.png) no-repeat;
+  background: url(../assets/images/skincare.jpg) no-repeat;
   background-size: 300px 300px; 
   width: 300px;
   height: 300px;
+
+}
+
+.project3:hover {
+  background: url(../assets/images/skincare.jpg) no-repeat;
+  background-size: 300px 300px; 
+  width: 300px;
+  height: 300px;
+   -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
 }
 
 .project3:hover{
@@ -103,6 +146,20 @@ body {
   overflow-y:scroll; 
 
 
+}
+
+#popup {
+  /*position:absolute;*/
+  /*margin-top: 10%;
+  margin-left: 48%;*/
+  /*width:100px; 
+  height:10px; */
+  
+  z-index: 9002; 
+  
+
+  
+  
 }
 
 .description {
@@ -300,12 +357,12 @@ body {
 
 /* The contact form */
 
-.footer-distributed form{
+.footer-distributed .email{
   display: inline-block;
 }
 
-.footer-distributed form input,
-.footer-distributed form textarea{
+.footer-distributed .email input,
+.footer-distributed .email textarea{
   display: block;
   border-radius: 3px;
   box-sizing: border-box;
@@ -337,17 +394,17 @@ body {
 }
 
 
-.footer-distributed form input{
+.footer-distributed .email input{
   height: 55px;
   margin-bottom: 15px;
 }
 
-.footer-distributed form textarea{
+.footer-distributed .email textarea{
   height: 100px;
   margin-bottom: 20px;
 }
 
-.footer-distributed form button{
+.footer-distributed .email button{
   border-radius: 3px;
   background-color:  #33383b;
   color: #ffffff;
@@ -369,12 +426,12 @@ body {
     font-size: 12px;
   }
 
-  .footer-distributed form input,
-  .footer-distributed form textarea{
+  .footer-distributed .email input,
+  .footer-distributed .email textarea{
     width: 250px;
   }
 
-  .footer-distributed form button{
+  .footer-distributed .email button{
     padding: 10px 35px;
   }
 
@@ -397,15 +454,15 @@ body {
     margin-bottom: 40px;
   }
 
-  .footer-distributed form{
+  .footer-distributed .email{
     margin-top: 30px;
   }
 
-  .footer-distributed form{
+  .footer-distributed .email{
     display: block;
   }
 
-  .footer-distributed form button{
+  .footer-distributed .email button{
     float: none;
   }
 }

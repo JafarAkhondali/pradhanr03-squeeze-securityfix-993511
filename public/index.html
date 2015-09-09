@@ -532,7 +532,7 @@
 
 <div id="section1" class="container-fluid">
   <h1>About Me</h1>
-  <p>Hello  My name is Rubina Pradhan. I am a web developer or full stack developer currently based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, PostGreSQL, Ruby on Rails, Bootstrap, CSS3, HTML5, Ajax, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from web development immersive program from General Assembly in New York and I've learned alot from such a short period of time from extremely talented instructors.</p>
+  <p>Hello  My name is Rubina Pradhan. I am a web developer or full stack developer currently based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, PostGreSQL, Ruby on Rails, Bootstrap, CSS3, HTML5, Ajax, Servers/HTTP, Security/Encryption, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from web development immersive program from General Assembly in New York and I've learned alot from such a short period of time from extremely talented instructors.</p>
   <p>When I'm not coding excluding my long commute in the subways, I am exploring the nature. I love to run, swim, hike, bike, etc. Yes, in that order ;) </p>
 
   <p>You think I've got what it takes to make your idea come to life? Maybe you just like my sweet parallax in the backrgound and would like to chat with me? Drop a message and I'll make sure to get in touch as soon as possible.</p>
@@ -551,8 +551,8 @@
   <div id="port" class="container-fluid">
 
   <div class='project1 img-thumbnail' data-toggle="modal" data-target="#myModal1"></div>
-	<div class='project2 img-thumbnail' data-toggle="modal" data-target="#myModal2">></div>
-	<div class='project3 img-thumbnail' data-toggle="modal" data-target="#myModal3">></div>
+	<div class='project2 img-thumbnail' data-toggle="modal" data-target="#myModal2"></div>
+	<div class='project3 img-thumbnail' data-toggle="modal" data-target="#myModal3"></div>
 	</div>
   
 
@@ -566,7 +566,7 @@
         </div>
         <div class="modal-body">
           <div class="img">
-          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <img src="/assets/images/wicki.jpg" style="width:200px; height:200px;" />
           <p><a href="http://wicki.herokuapp.com" target="_blank">Launch Website</a></p>
           </div>
           <div class="description">
@@ -593,11 +593,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal 2</h4>
+          <h4 class="modal-title">SOSNOW</h4>
         </div>
         <div class="modal-body">
          <div class="img">
-          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <img src="/assets/images/sos.jpg" style="width:200px; height:200px;" />
           <p><a href="http://sosnowapp.herokuapp.com" target="_blank">Launch Website</a></p>
           </div>
           <div class="description">
@@ -626,11 +626,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal 3</h4>
+          <h4 class="modal-title">SkinCareX</h4>
         </div>
         <div class="modal-body">
          <div class="img">
-          <img src="/assets/images/brick.jpg" style="width:200px; height:200px;" />
+          <img src="/assets/images/skincare.jpg" style="width:200px; height:200px;" />
           <p><a href="http://skincarex.herokuapp.com" target="_blank">Launch Website</a></p>
           </div>
           <div class="description">
@@ -681,27 +681,31 @@
 
 				<div class="footer-icons">
 
-					<a href="#"><i class="fa fa-facebook"></i></a>
-					<a href="#"><i class="fa fa-twitter"></i></a>
-					<a href="#"><i class="fa fa-linkedin"></i></a>
-					<a href="#"><i class="fa fa-github"></i></a>
+					<a href="https://www.linkedin.com/in/rubinapradhan" target="_blank"><i class="fa fa-linkedin"></i></a>
+					<a href="https://github.com/pradhanr03" target="_blank"><i class="fa fa-github"></i></a>
+					<h1 id="popup"></h1>
+ 
 
 				</div>
 
 			</div>
 
+
+			
+
 			<div class="footer-right">
 
 				<p>Contact Me</p>
-
-				<form action="/send" method="post">
+<!-- 
+				<form > -->
+				<div class="email">
 				
 
-					<input type="text" name="mail" placeholder="Email" />
-					<textarea name="message" placeholder="Message"></textarea>
+					<input type="text" id='mailbox' name="mail" placeholder="Email" />
+					<textarea name="message" id="msgbox" placeholder="Message"></textarea>
 					<button id="send">Send</button>
-			
-				</form>
+				</div>
+				<!-- </form> -->
 
 			</div>
 
