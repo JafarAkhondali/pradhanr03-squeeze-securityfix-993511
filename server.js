@@ -1,6 +1,6 @@
 var root = __dirname;
 var express = require('express');
-// var fs = require('fs');
+var fs = require('fs');
 var app = express();
 var dotenv = require('dotenv');
 dotenv.load();
@@ -95,9 +95,6 @@ var email     = new sendgrid.Email({
 
 
   });
-
-
-
 
 
 

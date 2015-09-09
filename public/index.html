@@ -503,8 +503,8 @@
 
 <!-- bootstrap stuff start -->
 
-<p class="hand"> <span class="glyphicon glyphicon-arrow-down"></span>Scroll</p>    
-      
+<div class="hand"></div> 
+       
 
 <nav class="navbar transparent navbar-inverse" data-spy="affix" data-offset-top="197">
   <div class="container-fluid">
@@ -531,7 +531,7 @@
 </nav>    
 
 <div id="section1" class="container-fluid">
-  <h1>About Me</h1>
+  <h1>About Me <i class="fa fa-female"></i></h1>
   <p>Hello  My name is Rubina Pradhan. I am a web developer or full stack developer currently based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, PostGreSQL, Ruby on Rails, Bootstrap, CSS3, HTML5, Ajax, Servers/HTTP, Security/Encryption, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from web development immersive program from General Assembly in New York and I've learned alot from such a short period of time from extremely talented instructors.</p>
   <p>When I'm not coding excluding my long commute in the subways, I am exploring the nature. I love to run, swim, hike, bike, etc. Yes, in that order ;) </p>
 
@@ -686,7 +686,8 @@
 
 					<a href="https://www.linkedin.com/in/rubinapradhan" target="_blank"><i class="fa fa-linkedin"></i></a>
 					<a href="https://github.com/pradhanr03" target="_blank"><i class="fa fa-github"></i></a>
-					<h1 id="popup"></h1>
+					<a href="/assets/images/dev_resume.pdf" class='cv' target="_blank"><i class="fa fa-file-pdf-o" ></i></a>
+					<h3 id="popup"></h3>
  
 
 				</div>
@@ -704,7 +705,7 @@
 				<div class="email">
 				
 
-					<input type="text" id='mailbox' name="mail" placeholder="Email" />
+					<input type="text" id='mailbox' name="mail" placeholder="Email" required/>
 					<textarea name="message" id="msgbox" placeholder="Message"></textarea>
 					<button id="send">Send</button>
 				</div>

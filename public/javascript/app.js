@@ -1,6 +1,7 @@
 $(document).ready( function () {
   
 $('#send').click(mail);
+
    // $('#sendmail').click(mail);
     // Prevent default anchor click behavior
     // event.preventDefault();
@@ -40,40 +41,67 @@ function parallaxScroll(){
         
     }
 
-// function parallax() {
 
-//   var layer1 = document.getElementById('pic1'); 
-//   layer1.style.top = -(window.pageYOffset/2.8)+'px';
-  
-// }
+
 
 var mail = function() {
     console.log('hello');
-    var data = {
-           mail: $('[name=mail]').val(),
-           message: $('[name=message]').val()
-    }
 
-   $('[name=mail]').val('');
-    $('[name=message]').val('');
-
-
-   
- $.ajax({
-            type: "POST",
-            url: '/send',
-            data: data,
-           success: function(){
-
-            
-            $('#popup').html('Thank you for the email :)');
-        $("#popup").delay(2000).fadeOut("slow", function () { $(this).remove(); });
+var data = {
+                   mail: $('[name=mail]').val(),
+                   message: $('[name=message]').val()
+            }
+ var email =$('[name=mail]').val();
 
 
-           },
-           fail: function(){
-         
-           }
-          });
+            if ((data.mail.length <1) || (data.message.length<1) || (data.mail.length <1 && data.message.length<1)) {
+                
+                $('#popup').html('Please enter a valid email or message  '+'<i class="fa fa-smile-o"></i>');
+                $("#popup").delay(4000).fadeOut("slow", function () { $(this).remove(); });
+                var popup= $('<h3>').attr('id', 'popup');
+                $('.footer-icons').append(popup);
+            }
+
+                else {
+                        var revString = email.split('').reverse().join('');
+                        var rev= revString.slice(4,9);
+                        var string = rev.split('').reverse().join('');
+
+                        if (string ==='yahoo') {
+                             $('#popup').html('Please enter another email besides a yahoo email  '+'<i class="fa fa-smile-o"></i>');
+                            $("#popup").delay(4000).fadeOut("slow", function () { $(this).remove(); });
+                            var popup= $('<h3>').attr('id', 'popup');
+                            $('.footer-icons').append(popup);
+
+                               $('[name=mail]').val('');
+                                $('[name=message]').val('');
+                        }
+                            else {
+                                 $('#popup').html('Thank you for the email '+'<i class="fa fa-smile-o"></i>');
+                                    $("#popup").delay(4000).fadeOut("slow", function () { $(this).remove(); });
+
+                                    var popup= $('<h3>').attr('id', 'popup');
+                                     $('.footer-icons').append(popup);
+                               
+
+
+                               $('[name=mail]').val('');
+                                $('[name=message]').val('');
+
+
+                               
+                             $.ajax({
+                                        type: "POST",
+                                        url: '/send',
+                                        data: data,
+                                       success: function(){
+
+                                       },
+                                       fail: function(){
+                                     
+                                       }
+                                });
+                            }
+                }
 
 };

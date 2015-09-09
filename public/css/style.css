@@ -54,6 +54,7 @@ position: static;
   background-size: 300px 300px; 
   width: 300px;
   height: 300px;
+  
 
 }
 
@@ -159,10 +160,7 @@ position: static;
   height:10px; */
   
   z-index: 9002; 
-  
 
-  
-  
 }
 
 .description {
@@ -195,8 +193,12 @@ cursor: pointer;
 
 .hand {
 	margin-top: -450px;
-	background-color: rgba(0,0,0,0.0);
+	background: url(../assets/images/scroll.gif) no-repeat;
+  background-size: 80px 80px;
 	margin-left: 50%;
+  width: 100px;
+  height: 100px;
+
 
 	position: absolute;
 }
