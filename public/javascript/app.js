@@ -1,5 +1,5 @@
 $(document).ready( function () {
-  
+ $('[data-toggle="tooltip"]').tooltip();   
 $('#send').click(mail);
 
    // $('#sendmail').click(mail);

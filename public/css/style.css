@@ -54,7 +54,8 @@ position: static;
   background-size: 300px 300px; 
   width: 300px;
   height: 300px;
-  
+  border: 5px solid black;
+  overflow: hidden;
 
 }
 
@@ -194,7 +195,7 @@ cursor: pointer;
 .hand {
 	margin-top: -450px;
 	background: url(../assets/images/scroll.gif) no-repeat;
-  background-size: 80px 80px;
+  background-size: 65px 80px;
 	margin-left: 50%;
   width: 100px;
   height: 100px;
@@ -487,3 +488,28 @@ body {
     float: none;
   }
 }
+
+
+.test + .tooltip > .tooltip-inner {
+      background-color: #6699FF; 
+      color: #FFFFFF; 
+      border: 1px solid grey; 
+      padding: 3px;
+      font-size: 16px;
+  }
+  /* Tooltip on top */
+  .test + .tooltip.top > .tooltip-arrow {
+      border-top: 5px solid green;
+  }
+  /* Tooltip on bottom */
+  .test + .tooltip.bottom > .tooltip-arrow {
+      border-bottom: 5px solid blue;
+  }
+  /* Tooltip on left */
+  .test + .tooltip.left > .tooltip-arrow {
+      border-left: 5px solid red;
+  }
+  /* Tooltip on right */
+  .test + .tooltip.right > .tooltip-arrow {
+      border-right: 5px solid black;
+  }
