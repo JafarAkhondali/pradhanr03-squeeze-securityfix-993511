@@ -274,6 +274,8 @@ body {
     width:48%; 
     color: #505050; 
     margin-left: 3%;
+    background-color: rgba(156, 196, 216, 0.8);
+    border-radius: 5%;
     position: absolute;
   top: 33%;
  
