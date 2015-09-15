@@ -1,10 +1,10 @@
 var root = __dirname;
 var express = require('express');
-var fs = require('fs');
+// var fs = require('fs');
 var app = express();
 var dotenv = require('dotenv');
 dotenv.load();
-var http = require("http");
+// var http = require("http");
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var methodOverride = require('method-override');
@@ -13,7 +13,7 @@ var path = require('path');
 
 var router = express.Router();
 
-var http = require('http').Server(app);
+// var http = require('http').Server(app);
 
 
 
@@ -66,35 +66,31 @@ app.use(methodOverride(function(req, res) {
 
 
 app.post('/send', function(req, res) {
-	var mail =req.body.mail;
-	var message=req.body.message;
+    	var mail =req.body.mail;
+    	var message=req.body.message;
 
-	var revString = mail.split('').reverse().join('');
-	var rev= revString.slice(4,9);
-	var string = rev.split('').reverse().join('');
+    	var revString = mail.split('').reverse().join('');
+    	var rev= revString.slice(4,9);
+    	var string = rev.split('').reverse().join('');
 
-	if (string ==='yahoo') {
-		res.send('Due to yahoo policy, yahoo doesnt allow third party email handlers to send email. So please enter an email address that is not yahoo.com');
-	}
-else {
+    	if (string ==='yahoo') {
+    		res.send('Due to yahoo policy, yahoo doesnt allow third party email handlers to send email. So please enter an email address that is not yahoo.com');
+    	}
+    else {
 
-var email     = new sendgrid.Email({
-  to:       'pradhanr03@gmail.com',
-  from:     mail,
-  subject:  'Subject goes here',
-  text:     message
+    var email     = new sendgrid.Email({
+      to:       'pradhanr03@gmail.com',
+      from:     mail,
+      subject:  'Subject goes here',
+      text:     message
+    });
+    }
+          
+              sendgrid.send(email, function(err, json) {
+      if (err) { return res.send('nope'); }
+      res.send('yay');
+    });
 });
-}
-      
-          sendgrid.send(email, function(err, json) {
-  if (err) { return res.send('nope'); }
-  res.send('yay');
-});
-
-    
-
-
-  });
 
 
 
