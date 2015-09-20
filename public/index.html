@@ -1,767 +1,785 @@
-
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Rubina Pradhan</title>
-		<meta charset="utf-8">
 
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<head>
+  <title>Rubina Pradhan</title>
+  <meta charset="utf-8">
 
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="footer, contact, form, icons" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="footer, contact, form, icons" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
   <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
   <script src="https://code.jquery.com/jquery-2.1.4.js">
   </script>
-   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-        <script type="text/javascript">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript">
+  </script>
 
-        </script>
 
-		
-		<link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 
 
-		 <!-- Bootstrap -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 
-    <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
 
 
 
 
 
 
-	</head>
-	<body data-spy="scroll" data-target=".navbar" data-offset="50">
+</head>
 
-<div class="container-fluid">
- </div>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-	
- 
-		<div id="container"></div>
-		
-
-
-    
-<script src="/three/build/three.min.js"></script>
-<script src="/three/build/three.js"></script>
-<script src="/three/examples/js/renderers/Projector.js"></script>
-<script src="/three/examples/js/renderers/CanvasRenderer.js"></script>
-<script src="/three/examples/js/libs/stats.min.js"></script>
-<script src="/three/examples/obj/Bird.js"></script>	
-
-		<script>
-
-			// Based on http://www.openprocessing.org/visuals/?visualID=6910
-
-			var Boid = function() {
-
-				var vector = new THREE.Vector3(),
-				_acceleration, _width = 500, _height = 500, _depth = 200, _goal, _neighborhoodRadius = 100,
-				_maxSpeed = 4, _maxSteerForce = 0.1, _avoidWalls = false;
-
-				this.position = new THREE.Vector3();
-				this.velocity = new THREE.Vector3();
-				_acceleration = new THREE.Vector3();
-
-				this.setGoal = function ( target ) {
-
-					_goal = target;
-
-				}
-
-				this.setAvoidWalls = function ( value ) {
-
-					_avoidWalls = value;
-
-				}
-
-				this.setWorldSize = function ( width, height, depth ) {
-
-					_width = width;
-					_height = height;
-					_depth = depth;
-
-				}
-
-				this.run = function ( boids ) {
-
-					if ( _avoidWalls ) {
-
-						vector.set( - _width, this.position.y, this.position.z );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-						vector.set( _width, this.position.y, this.position.z );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-						vector.set( this.position.x, - _height, this.position.z );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-						vector.set( this.position.x, _height, this.position.z );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-						vector.set( this.position.x, this.position.y, - _depth );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-						vector.set( this.position.x, this.position.y, _depth );
-						vector = this.avoid( vector );
-						vector.multiplyScalar( 5 );
-						_acceleration.add( vector );
-
-					}/* else {
-
-						this.checkBounds();
-
-					}
-					*/
-
-					if ( Math.random() > 0.5 ) {
-
-						this.flock( boids );
-
-					}
-
-					this.move();
-
-				}
-
-				this.flock = function ( boids ) {
-
-					if ( _goal ) {
-
-						_acceleration.add( this.reach( _goal, 0.005 ) );
-
-					}
-
-					_acceleration.add( this.alignment( boids ) );
-					_acceleration.add( this.cohesion( boids ) );
-					_acceleration.add( this.separation( boids ) );
-
-				}
-
-				this.move = function () {
-
-					this.velocity.add( _acceleration );
-
-					var l = this.velocity.length();
-
-					if ( l > _maxSpeed ) {
-
-						this.velocity.divideScalar( l / _maxSpeed );
-
-					}
-
-					this.position.add( this.velocity );
-					_acceleration.set( 0, 0, 0 );
-
-				}
-
-				this.checkBounds = function () {
-
-					if ( this.position.x >   _width ) this.position.x = - _width;
-					if ( this.position.x < - _width ) this.position.x =   _width;
-					if ( this.position.y >   _height ) this.position.y = - _height;
-					if ( this.position.y < - _height ) this.position.y =  _height;
-					if ( this.position.z >  _depth ) this.position.z = - _depth;
-					if ( this.position.z < - _depth ) this.position.z =  _depth;
-
-				}
-
-				//
-
-				this.avoid = function ( target ) {
-
-					var steer = new THREE.Vector3();
-
-					steer.copy( this.position );
-					steer.sub( target );
-
-					steer.multiplyScalar( 1 / this.position.distanceToSquared( target ) );
-
-					return steer;
-
-				}
-
-				this.repulse = function ( target ) {
-
-					var distance = this.position.distanceTo( target );
-
-					if ( distance < 150 ) {
-
-						var steer = new THREE.Vector3();
-
-						steer.subVectors( this.position, target );
-						steer.multiplyScalar( 0.5 / distance );
-
-						_acceleration.add( steer );
-
-					}
-
-				}
-
-				this.reach = function ( target, amount ) {
-
-					var steer = new THREE.Vector3();
-
-					steer.subVectors( target, this.position );
-					steer.multiplyScalar( amount );
-
-					return steer;
-
-				}
-
-				this.alignment = function ( boids ) {
-
-					var boid, velSum = new THREE.Vector3(),
-					count = 0;
-
-					for ( var i = 0, il = boids.length; i < il; i++ ) {
-
-						if ( Math.random() > 0.6 ) continue;
-
-						boid = boids[ i ];
-
-						distance = boid.position.distanceTo( this.position );
-
-						if ( distance > 0 && distance <= _neighborhoodRadius ) {
-
-							velSum.add( boid.velocity );
-							count++;
-
-						}
-
-					}
-
-					if ( count > 0 ) {
-
-						velSum.divideScalar( count );
-
-						var l = velSum.length();
-
-						if ( l > _maxSteerForce ) {
-
-							velSum.divideScalar( l / _maxSteerForce );
-
-						}
-
-					}
-
-					return velSum;
-
-				}
-
-				this.cohesion = function ( boids ) {
-
-					var boid, distance,
-					posSum = new THREE.Vector3(),
-					steer = new THREE.Vector3(),
-					count = 0;
-
-					for ( var i = 0, il = boids.length; i < il; i ++ ) {
-
-						if ( Math.random() > 0.6 ) continue;
-
-						boid = boids[ i ];
-						distance = boid.position.distanceTo( this.position );
-
-						if ( distance > 0 && distance <= _neighborhoodRadius ) {
-
-							posSum.add( boid.position );
-							count++;
-
-						}
-
-					}
-
-					if ( count > 0 ) {
-
-						posSum.divideScalar( count );
-
-					}
-
-					steer.subVectors( posSum, this.position );
-
-					var l = steer.length();
-
-					if ( l > _maxSteerForce ) {
-
-						steer.divideScalar( l / _maxSteerForce );
-
-					}
-
-					return steer;
-
-				}
-
-				this.separation = function ( boids ) {
-
-					var boid, distance,
-					posSum = new THREE.Vector3(),
-					repulse = new THREE.Vector3();
-
-					for ( var i = 0, il = boids.length; i < il; i ++ ) {
-
-						if ( Math.random() > 0.6 ) continue;
-
-						boid = boids[ i ];
-						distance = boid.position.distanceTo( this.position );
-
-						if ( distance > 0 && distance <= _neighborhoodRadius ) {
-
-							repulse.subVectors( this.position, boid.position );
-							repulse.normalize();
-							repulse.divideScalar( distance );
-							posSum.add( repulse );
-
-						}
-
-					}
-
-					return posSum;
-
-				}
-
-			}
-
-		</script>
-
-		<script>
-
-			// var SCREEN_WIDTH = window.innerWidth,
-			// SCREEN_HEIGHT = window.innerHeight,
-
-			var SCREEN_WIDTH = 1285,
-			SCREEN_HEIGHT = 1050,
-			SCREEN_WIDTH_HALF = SCREEN_WIDTH  / 2,
-			SCREEN_HEIGHT_HALF = SCREEN_HEIGHT / 2;
-
-			var camera, scene, renderer,
-			birds, bird;
-
-			var boid, boids;
-
-			var stats;
-
-			init();
-			animate();
-
-			function init() {
-
-				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000 );
-				camera.position.z = 450;
-
-				scene = new THREE.Scene();
-
-				birds = [];
-				boids = [];
-
-				for ( var i = 0; i < 200; i ++ ) {
-
-					boid = boids[ i ] = new Boid();
-					boid.position.x = Math.random() * 400 - 200;
-					boid.position.y = Math.random() * 400 - 200;
-					boid.position.z = Math.random() * 400 - 200;
-					boid.velocity.x = Math.random() * 2 - 1;
-					boid.velocity.y = Math.random() * 2 - 1;
-					boid.velocity.z = Math.random() * 2 - 1;
-					boid.setAvoidWalls( true );
-					boid.setWorldSize( 500, 500, 400 );
-
-					bird = birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( { color:Math.random() * 0xffffff, side: THREE.DoubleSide } ) );
-					bird.phase = Math.floor( Math.random() * 62.83 );
-					scene.add( bird );
-
-
-				}
-
-				// renderer = new THREE.CanvasRenderer();
-				renderer = new THREE.WebGLRenderer({
-				  antialias: true,
-				  alpha: true
-				});
-				
-				// renderer.setClearColor( 0xffffff );
-				renderer.setClearColor(0xffffff, 0);
-				renderer.setPixelRatio( window.devicePixelRatio );
-				
-				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.body.appendChild( renderer.domElement );
-
-				stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.left = '0px';
-				stats.domElement.style.top = '0px';
-
-				// document.getElementById( 'container' ).appendChild(stats.domElement);
-
-				//
-
-				window.addEventListener( 'resize', onWindowResize, false );
-
-			}
-
-			function onWindowResize() {
-
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-
-				renderer.setSize( window.innerWidth, 500 );
-
-			}
-
-			function onDocumentMouseMove( event ) {
-
-				var vector = new THREE.Vector3( event.clientX - SCREEN_WIDTH_HALF, - event.clientY + SCREEN_HEIGHT_HALF, 0 );
-
-				for ( var i = 0, il = boids.length; i < il; i++ ) {
-
-					boid = boids[ i ];
-
-					vector.z = boid.position.z;
-
-					boid.repulse( vector );
-
-				}
-
-			}
-
-			//
-
-			function animate() {
-
-				requestAnimationFrame( animate );
-
-				render();
-				stats.update();
-
-			}
-
-			function render() {
-
-				for ( var i = 0, il = birds.length; i < il; i++ ) {
-
-					boid = boids[ i ];
-					boid.run( boids );
-
-					bird = birds[ i ];
-					bird.position.copy( boids[ i ].position );
-
-					color = bird.material.color;
-					color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000;
-
-					bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x );
-					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
-
-					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
-					bird.geometry.vertices[ 5 ].y = bird.geometry.vertices[ 4 ].y = Math.sin( bird.phase ) * 5;
-
-				}
-
-				renderer.render( scene, camera );
-
-			}
-
-		</script>
-
-		
-
-		<div id='pic1'>
-		</div>
-
-
-
-<!-- extra bootstrap start -->
-
-
-<!-- extra bootstrap end -->
-
-
-
-
-
-
-<!-- bootstrap stuff start -->
-
-<div class="hand"></div> 
-       
-
-<nav class="navbar transparent navbar-inverse" data-spy="affix" data-offset-top="197">
   <div class="container-fluid">
-    <div class="navbar-header">
+  </div>
+
+
+
+  <div id="container"></div>
+
+
+
+
+  <script src="/three/build/three.min.js"></script>
+  <script src="/three/build/three.js"></script>
+  <script src="/three/examples/js/renderers/Projector.js"></script>
+  <script src="/three/examples/js/renderers/CanvasRenderer.js"></script>
+  <script src="/three/examples/js/libs/stats.min.js"></script>
+  <script src="/three/examples/obj/Bird.js"></script>
+
+  <script>
+    // Based on http://www.openprocessing.org/visuals/?visualID=6910
+
+    var Boid = function() {
+
+      var vector = new THREE.Vector3(),
+        _acceleration, _width = 500,
+        _height = 500,
+        _depth = 200,
+        _goal, _neighborhoodRadius = 100,
+        _maxSpeed = 4,
+        _maxSteerForce = 0.1,
+        _avoidWalls = false;
+
+      this.position = new THREE.Vector3();
+      this.velocity = new THREE.Vector3();
+      _acceleration = new THREE.Vector3();
+
+      this.setGoal = function(target) {
+
+        _goal = target;
+
+      }
+
+      this.setAvoidWalls = function(value) {
+
+        _avoidWalls = value;
+
+      }
+
+      this.setWorldSize = function(width, height, depth) {
+
+        _width = width;
+        _height = height;
+        _depth = depth;
+
+      }
+
+      this.run = function(boids) {
+
+        if (_avoidWalls) {
+
+          vector.set(-_width, this.position.y, this.position.z);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+          vector.set(_width, this.position.y, this.position.z);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+          vector.set(this.position.x, -_height, this.position.z);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+          vector.set(this.position.x, _height, this.position.z);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+          vector.set(this.position.x, this.position.y, -_depth);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+          vector.set(this.position.x, this.position.y, _depth);
+          vector = this.avoid(vector);
+          vector.multiplyScalar(5);
+          _acceleration.add(vector);
+
+        }
+        /* else {
+
+        						this.checkBounds();
+
+        					}
+        					*/
+
+        if (Math.random() > 0.5) {
+
+          this.flock(boids);
+
+        }
+
+        this.move();
+
+      }
+
+      this.flock = function(boids) {
+
+        if (_goal) {
+
+          _acceleration.add(this.reach(_goal, 0.005));
+
+        }
+
+        _acceleration.add(this.alignment(boids));
+        _acceleration.add(this.cohesion(boids));
+        _acceleration.add(this.separation(boids));
+
+      }
+
+      this.move = function() {
+
+        this.velocity.add(_acceleration);
+
+        var l = this.velocity.length();
+
+        if (l > _maxSpeed) {
+
+          this.velocity.divideScalar(l / _maxSpeed);
+
+        }
+
+        this.position.add(this.velocity);
+        _acceleration.set(0, 0, 0);
+
+      }
+
+      this.checkBounds = function() {
+
+        if (this.position.x > _width) this.position.x = -_width;
+        if (this.position.x < -_width) this.position.x = _width;
+        if (this.position.y > _height) this.position.y = -_height;
+        if (this.position.y < -_height) this.position.y = _height;
+        if (this.position.z > _depth) this.position.z = -_depth;
+        if (this.position.z < -_depth) this.position.z = _depth;
+
+      }
+
+      //
+
+      this.avoid = function(target) {
+
+        var steer = new THREE.Vector3();
+
+        steer.copy(this.position);
+        steer.sub(target);
+
+        steer.multiplyScalar(1 / this.position.distanceToSquared(target));
+
+        return steer;
+
+      }
+
+      this.repulse = function(target) {
+
+        var distance = this.position.distanceTo(target);
+
+        if (distance < 150) {
+
+          var steer = new THREE.Vector3();
+
+          steer.subVectors(this.position, target);
+          steer.multiplyScalar(0.5 / distance);
+
+          _acceleration.add(steer);
+
+        }
+
+      }
+
+      this.reach = function(target, amount) {
+
+        var steer = new THREE.Vector3();
+
+        steer.subVectors(target, this.position);
+        steer.multiplyScalar(amount);
+
+        return steer;
+
+      }
+
+      this.alignment = function(boids) {
+
+        var boid, velSum = new THREE.Vector3(),
+          count = 0;
+
+        for (var i = 0, il = boids.length; i < il; i++) {
+
+          if (Math.random() > 0.6) continue;
+
+          boid = boids[i];
+
+          distance = boid.position.distanceTo(this.position);
+
+          if (distance > 0 && distance <= _neighborhoodRadius) {
+
+            velSum.add(boid.velocity);
+            count++;
+
+          }
+
+        }
+
+        if (count > 0) {
+
+          velSum.divideScalar(count);
+
+          var l = velSum.length();
+
+          if (l > _maxSteerForce) {
+
+            velSum.divideScalar(l / _maxSteerForce);
+
+          }
+
+        }
+
+        return velSum;
+
+      }
+
+      this.cohesion = function(boids) {
+
+        var boid, distance,
+          posSum = new THREE.Vector3(),
+          steer = new THREE.Vector3(),
+          count = 0;
+
+        for (var i = 0, il = boids.length; i < il; i++) {
+
+          if (Math.random() > 0.6) continue;
+
+          boid = boids[i];
+          distance = boid.position.distanceTo(this.position);
+
+          if (distance > 0 && distance <= _neighborhoodRadius) {
+
+            posSum.add(boid.position);
+            count++;
+
+          }
+
+        }
+
+        if (count > 0) {
+
+          posSum.divideScalar(count);
+
+        }
+
+        steer.subVectors(posSum, this.position);
+
+        var l = steer.length();
+
+        if (l > _maxSteerForce) {
+
+          steer.divideScalar(l / _maxSteerForce);
+
+        }
+
+        return steer;
+
+      }
+
+      this.separation = function(boids) {
+
+        var boid, distance,
+          posSum = new THREE.Vector3(),
+          repulse = new THREE.Vector3();
+
+        for (var i = 0, il = boids.length; i < il; i++) {
+
+          if (Math.random() > 0.6) continue;
+
+          boid = boids[i];
+          distance = boid.position.distanceTo(this.position);
+
+          if (distance > 0 && distance <= _neighborhoodRadius) {
+
+            repulse.subVectors(this.position, boid.position);
+            repulse.normalize();
+            repulse.divideScalar(distance);
+            posSum.add(repulse);
+
+          }
+
+        }
+
+        return posSum;
+
+      }
+
+    }
+  </script>
+
+  <script>
+    // var SCREEN_WIDTH = window.innerWidth,
+    // SCREEN_HEIGHT = window.innerHeight,
+
+    var SCREEN_WIDTH = 1285,
+      SCREEN_HEIGHT = 1050,
+      SCREEN_WIDTH_HALF = SCREEN_WIDTH / 2,
+      SCREEN_HEIGHT_HALF = SCREEN_HEIGHT / 2;
+
+    var camera, scene, renderer,
+      birds, bird;
+
+    var boid, boids;
+
+    var stats;
+
+    init();
+    animate();
+
+    function init() {
+
+      camera = new THREE.PerspectiveCamera(75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
+      camera.position.z = 450;
+
+      scene = new THREE.Scene();
+
+      birds = [];
+      boids = [];
+
+      for (var i = 0; i < 200; i++) {
+
+        boid = boids[i] = new Boid();
+        boid.position.x = Math.random() * 400 - 200;
+        boid.position.y = Math.random() * 400 - 200;
+        boid.position.z = Math.random() * 400 - 200;
+        boid.velocity.x = Math.random() * 2 - 1;
+        boid.velocity.y = Math.random() * 2 - 1;
+        boid.velocity.z = Math.random() * 2 - 1;
+        boid.setAvoidWalls(true);
+        boid.setWorldSize(500, 500, 400);
+
+        bird = birds[i] = new THREE.Mesh(new Bird(), new THREE.MeshBasicMaterial({
+          color: Math.random() * 0xffffff,
+          side: THREE.DoubleSide
+        }));
+        bird.phase = Math.floor(Math.random() * 62.83);
+        scene.add(bird);
+
+
+      }
+
+      // renderer = new THREE.CanvasRenderer();
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true
+      });
+
+      // renderer.setClearColor( 0xffffff );
+      renderer.setClearColor(0xffffff, 0);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+      document.addEventListener('mousemove', onDocumentMouseMove, false);
+      document.body.appendChild(renderer.domElement);
+
+      stats = new Stats();
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.left = '0px';
+      stats.domElement.style.top = '0px';
+
+      // document.getElementById( 'container' ).appendChild(stats.domElement);
+
+      //
+
+      window.addEventListener('resize', onWindowResize, false);
+
+    }
+
+    function onWindowResize() {
+
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, 500);
+
+    }
+
+    function onDocumentMouseMove(event) {
+
+      var vector = new THREE.Vector3(event.clientX - SCREEN_WIDTH_HALF, -event.clientY + SCREEN_HEIGHT_HALF, 0);
+
+      for (var i = 0, il = boids.length; i < il; i++) {
+
+        boid = boids[i];
+
+        vector.z = boid.position.z;
+
+        boid.repulse(vector);
+
+      }
+
+    }
+
+    //
+
+    function animate() {
+
+      requestAnimationFrame(animate);
+
+      render();
+      stats.update();
+
+    }
+
+    function render() {
+
+      for (var i = 0, il = birds.length; i < il; i++) {
+
+        boid = boids[i];
+        boid.run(boids);
+
+        bird = birds[i];
+        bird.position.copy(boids[i].position);
+
+        color = bird.material.color;
+        color.r = color.g = color.b = (500 - bird.position.z) / 1000;
+
+        bird.rotation.y = Math.atan2(-boid.velocity.z, boid.velocity.x);
+        bird.rotation.z = Math.asin(boid.velocity.y / boid.velocity.length());
+
+        bird.phase = (bird.phase + (Math.max(0, bird.rotation.z) + 0.1)) % 62.83;
+        bird.geometry.vertices[5].y = bird.geometry.vertices[4].y = Math.sin(bird.phase) * 5;
+
+      }
+
+      renderer.render(scene, camera);
+
+    }
+  </script>
+
+
+
+  <div id='pic1'>
+  </div>
+
+
+
+  <!-- extra bootstrap start -->
+
+
+  <!-- extra bootstrap end -->
+
+
+
+
+
+
+  <!-- bootstrap stuff start -->
+
+  <div class="hand"></div>
+
+
+  <nav class="navbar transparent navbar-inverse" data-spy="affix" data-offset-top="197">
+    <div class="container-fluid">
+      <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span>                        
-      </button>
-      
-  <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
-    </div>
-    <div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li><a href="#section1">About</a></li>
-         <!--  <li><a href="#section2">Projects</a></li> -->
-          <li><a href="#port">Projects</a></li>
-           <li><a href="#section4">Contact</a></li>
-        </ul>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
       </div>
-    </div>
-  </div>
-</nav>    
-
-<div id="about">
-<div id="section1" class="container-fluid">
-
-  <h1>About Me <i class="fa fa-female"></i></h1>
-  <p>Hello  My name is Rubina Pradhan. I am a full stack developer based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js, AngularJS, postgreSQL, Ruby on Rails, sendGrid API, Bootstrap, CSS3, HTML5, Ajax, Servers/HTTP, Security/Encryption, PHP, SASS, LESS, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from General Assembly, an intense web development immersive program in New York. I learned a lot in a short period of time from extremely talented instructors.</p>
-  <p>When I'm not coding excluding my long commute in the subways, I am exploring the nature. I love to run, swim, hike, bike, etc. Yes, in that order ;) </p>
-
-  <p>You think I've got what it takes to make your idea come to life? Maybe you just like my sweet parallax in the background and would like to chat with me? Drop a message and I'll make sure to get in touch as soon as possible.</p>
-
-<p>	For more information checkout my resume below.</p>
-<p>P.S If you're just wondering the background is picture of my hometown in Nepal before it was destroyed in the earthquake in 2015.</p>
-</div>
-</div>
-
-
-
-
-<div  id="project" class="container-fluid">
-
-
-  <div id="port" class="container-fluid">
-
-
- 	<div class='project1 img-thumbnail' data-toggle="modal" data-target="#myModal1"></div>
-	<div class='project2 img-thumbnail' data-toggle="modal" data-target="#myModal2"></div>
-	<div class='project3 img-thumbnail' data-toggle="modal" data-target="#myModal3"></div>
-	</div>
-  
-
-  <!-- Modal -->
-  <div class="modal fade container-fluid" id="myModal1" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Wicki</h4>
-        </div>
-        <div class="modal-body">
-          <div class="img">
-          <img src="/assets/images/wicki.jpg" style="width:200px; height:200px;" />
-          <p><a href="http://wicki.herokuapp.com" target="_blank">Launch Website</a></p>
-          </div>
-          <div class="description">
-          <p> Wicki was one of my first full stack web app project I built using JavaScript after learning JavaScript for 4 weeks without prior programming experience. It's a web-based, free-content encyclopedia project. This project was highly influenced by the wikipedia website based on a model of openly editable content. This is a multi-routed web app built on Node.js, Express and it's routers.</p>
-          <p> I wanted this web app to have a simple and basic wireframe where all the tabs goes on the header and content in the center of the body. I used flexbox to make my CSS process to go smooth.</p>
-          	<ul>
-	         	<li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
-				<li>Built RESTful API routes using Node and Express that displayed and retrieved the JSON data from the browser and vice-versa from the database using custom built ORM, models and controllers.</li>
-				<li>Used jQuery to display a random and featured object page from the actual wikipedia page.</li>
-				<li>Used express-sessions for user authentication</li>
-				<li>The following tools like jQuery, PostgreSQL, JavaScript, Node.js, express, express-sessions and several Node.js library module were used to build this project.</li>
-			</ul>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li><a href="#section1">About</a></li>
+            <!--  <li><a href="#section2">Projects</a></li> -->
+            <li><a href="#port">Projects</a></li>
+            <li><a href="#section4">Contact</a></li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
+  </nav>
 
-<div class="modal fade container-fluid" id="myModal2" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">SOSNOW</h4>
-        </div>
-        <div class="modal-body">
-         <div class="img">
-          <img src="/assets/images/sos.jpg" style="width:200px; height:200px;" />
-          <p><a href="http://sosnowapp.herokuapp.com" target="_blank">Launch Website</a></p>
-          </div>
-          <div class="description">
-          <p> SOS was my first full stack web app group project that we built using Ruby on Rails after learning ROR for 2 weeks. It's a non-profit web application that is aimed to help the victims of natural disasters. This is a single page app built on ROR using Backbone.js, jQuery, JavaScript, Ruby, Handlebars, PostgreSQL, Ajax, google maps API, twitter API. The web application geolocates the victim's location and sends out a SOS in the application and twitter page where the volunteers can search for the victims in the app. It also uses twitter API to send out SOS posts in the twitter page for our web app.</p>
-          <p>As a group we did a lot of pair programming and help each other with debugging issues but mainly my part in the group project was as follows:</p>
-          	<ul>
-	         	<li>Built back-end of the web-app by creating user authentication, sign in and log in using rails sessions for volunteers</li>
-	         	<li>Built server side MVC and client side MVC for user authentication</li>
-				<li>Created templates for the models and modals using handlebars</li>
-				<li>Built front-end of the web app by building client side MVC's like BackboneJS, Ajax, jQuery, CSS and wireframe for the templates</li>
-				<li>Used a combination of BackboneJS and Ajax to render the data from PostgreSql database to the modal template and the seeker template</li>
-				
-			</ul>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
+  <div id="about">
+    <div id="section1" class="container-fluid">
+
+      <h1>About Me <i class="fa fa-female"></i></h1>
+      <p>Hello My name is Rubina Pradhan. I am a full stack developer based in NYC. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ExpressJS, Backbone.js,
+        AngularJS, postgreSQL, Ruby on Rails, sendGrid API, Bootstrap, CSS3, HTML5, Ajax, Servers/HTTP, Security/Encryption, PHP, SASS, LESS, Photoshop and Linux. Picking up a new framework or language isn't a problem, since I graduated from General Assembly,
+        an intense web development immersive program in New York. I learned a lot in a short period of time from extremely talented instructors.</p>
+      <p>When I'm not coding excluding my long commute in the subways, I am exploring the nature. I love to run, swim, hike, bike, etc. Yes, in that order ;) </p>
+
+      <p>You think I've got what it takes to make your idea come to life? Maybe you just like my sweet parallax in the background and would like to chat with me? Drop a message and I'll make sure to get in touch as soon as possible.</p>
+
+      <p> For more information checkout my resume below.</p>
+      <p>P.S If you're just wondering the background is picture of my hometown in Nepal before it was destroyed in the earthquake in 2015.</p>
     </div>
   </div>
 
 
-<div class="modal fade container-fluid" id="myModal3" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">SkinCareX</h4>
-        </div>
-        <div class="modal-body">
-         <div class="img">
-          <img src="/assets/images/skincare.jpg" style="width:200px; height:200px;" />
-          <p><a href="http://skincarex.herokuapp.com" target="_blank">Launch Website</a></p>
+
+
+  <div id="project" class="container-fluid">
+
+
+    <div id="port" class="container-fluid">
+
+
+      <div class='project1 img-thumbnail' data-toggle="modal" data-target="#myModal1"></div>
+      <div class='project2 img-thumbnail' data-toggle="modal" data-target="#myModal2"></div>
+      <div class='project3 img-thumbnail' data-toggle="modal" data-target="#myModal3"></div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade container-fluid" id="myModal1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Wicki</h4>
           </div>
-          <div class="description">
-          <p> SkinCareX was my final full stack web app project I built during a time period of 1 week. I chose to build a e-commerce site to showcase my programming skills in a realistic web-app for potential clients. Since, single page web app is so popular, I decided to do this web app a single page app as well. This app is slightly different than regular ecommerce site. It is more focused on a client's company and their products. I made separate tabs for information section on the company, products, science(the behind the scenes on how the scientist invented the product) and a section on skin. Customers can sign up, log in and buy products. I built a dummy payment template where the checkout takes any payment and runs any transaction successfully. But in reality, I would use paypal or stripe API for real web apps. I mainly chose to do this web app in Node.Js framework instead of ROR because I wanted to implement a chat application for customer service feature using sockets.io.</p>
-          <p>The list of things that were implemented to build this app are as follows:</p>
-          	<ul>
-	         	<li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
-	         	<li>Used BackboneJS to create collections of the products, products from different categories and render it in the products template.</li>
-				<li>created modals for individual products using BackboneJS</li>
-				<li>Used Ajax request in the Add To Cart button, where it stores the product item in sessionStorage and render the items in the cart template</li>
-				<li>Used localStorage to store shipping address, billing address and total price.</li>
-				<li>Used CSS3D, canvas, WebGL molecule renderer, a 3D JavaScript library from Mr.doob https://github.com/mrdoob/three.js/ in the science page template to create user interactive experience with molecules of the product</li>
-				<li>Used sockets.io to have a real time customer service chat experience</li>
-				<li>Used google maps API to find a nearby dermatologist in the customers location</li>
-				<li>Used parallax in the skin explained page template to create a fun experience on learning about the skin.</li>
-				<li>Used express-sessions for user authentication</li>
-				<li>Created client side MVC for BackboneJS and server side MVC with custom built ORM's to get a custom JSON to render the data in the templates</li>
-				<li>The following tools like jQuery, Ajax, PostgreSQL, JavaScript, Node.js, express, express-sessions, BackboneJS, sockets.io, google maps API, 3D JavaScript library from mrdoob, sessionStorage, localStorage and parallax feature were used to build this project.</li>
-			</ul>
+          <div class="modal-body">
+            <div class="img">
+              <img src="/assets/images/wicki.jpg" style="width:200px; height:200px;" />
+              <p><a href="http://wicki.herokuapp.com" target="_blank">Launch Website</a></p>
+            </div>
+            <div class="description">
+              <p> Wicki was one of my first full stack web app project I built using JavaScript after learning JavaScript for 4 weeks without prior programming experience. It's a web-based, free-content encyclopedia project. This project was highly influenced
+                by the wikipedia website based on a model of openly editable content. This is a multi-routed web app built on Node.js, Express and it's routers.</p>
+              <p> I wanted this web app to have a simple and basic wireframe where all the tabs goes on the header and content in the center of the body. I used flexbox to make my CSS process to go smooth.</p>
+              <ul>
+                <li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
+                <li>Built RESTful API routes using Node and Express that displayed and retrieved the JSON data from the browser and vice-versa from the database using custom built ORM, models and controllers.</li>
+                <li>Used jQuery to display a random and featured object page from the actual wikipedia page.</li>
+                <li>Used express-sessions for user authentication</li>
+                <li>The following tools like jQuery, PostgreSQL, JavaScript, Node.js, express, express-sessions and several Node.js library module were used to build this project.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+    <div class="modal fade container-fluid" id="myModal2" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">SOSNOW</h4>
+          </div>
+          <div class="modal-body">
+            <div class="img">
+              <img src="/assets/images/sos.jpg" style="width:200px; height:200px;" />
+              <p><a href="http://sosnowapp.herokuapp.com" target="_blank">Launch Website</a></p>
+            </div>
+            <div class="description">
+              <p> SOS was my first full stack web app group project that we built using Ruby on Rails after learning ROR for 2 weeks. It's a non-profit web application that is aimed to help the victims of natural disasters. This is a single page app built
+                on ROR using Backbone.js, jQuery, JavaScript, Ruby, Handlebars, PostgreSQL, Ajax, google maps API, twitter API. The web application geolocates the victim's location and sends out a SOS in the application and twitter page where the volunteers
+                can search for the victims in the app. It also uses twitter API to send out SOS posts in the twitter page for our web app.</p>
+              <p>As a group we did a lot of pair programming and help each other with debugging issues but mainly my part in the group project was as follows:</p>
+              <ul>
+                <li>Built back-end of the web-app by creating user authentication, sign in and log in using rails sessions for volunteers</li>
+                <li>Built server side MVC and client side MVC for user authentication</li>
+                <li>Created templates for the models and modals using handlebars</li>
+                <li>Built front-end of the web app by building client side MVC's like BackboneJS, Ajax, jQuery, CSS and wireframe for the templates</li>
+                <li>Used a combination of BackboneJS and Ajax to render the data from PostgreSql database to the modal template and the seeker template</li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade container-fluid" id="myModal3" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">SkinCareX</h4>
+          </div>
+          <div class="modal-body">
+            <div class="img">
+              <img src="/assets/images/skincare.jpg" style="width:200px; height:200px;" />
+              <p><a href="http://skincarex.herokuapp.com" target="_blank">Launch Website</a></p>
+            </div>
+            <div class="description">
+              <p> SkinCareX was my final full stack web app project I built during a time period of 1 week. I chose to build a e-commerce site to showcase my programming skills in a realistic web-app for potential clients. Since, single page web app is so
+                popular, I decided to do this web app a single page app as well. This app is slightly different than regular ecommerce site. It is more focused on a client's company and their products. I made separate tabs for information section on the
+                company, products, science(the behind the scenes on how the scientist invented the product) and a section on skin. Customers can sign up, log in and buy products. I built a dummy payment template where the checkout takes any payment and
+                runs any transaction successfully. But in reality, I would use paypal or stripe API for real web apps. I mainly chose to do this web app in Node.Js framework instead of ROR because I wanted to implement a chat application for customer
+                service feature using sockets.io.</p>
+              <p>The list of things that were implemented to build this app are as follows:</p>
+              <ul>
+                <li>Web app data was seeded using PostgreSQL database with heroku and Node.js.</li>
+                <li>Used BackboneJS to create collections of the products, products from different categories and render it in the products template.</li>
+                <li>created modals for individual products using BackboneJS</li>
+                <li>Used Ajax request in the Add To Cart button, where it stores the product item in sessionStorage and render the items in the cart template</li>
+                <li>Used localStorage to store shipping address, billing address and total price.</li>
+                <li>Used CSS3D, canvas, WebGL molecule renderer, a 3D JavaScript library from Mr.doob https://github.com/mrdoob/three.js/ in the science page template to create user interactive experience with molecules of the product</li>
+                <li>Used sockets.io to have a real time customer service chat experience</li>
+                <li>Used google maps API to find a nearby dermatologist in the customers location</li>
+                <li>Used parallax in the skin explained page template to create a fun experience on learning about the skin.</li>
+                <li>Used express-sessions for user authentication</li>
+                <li>Created client side MVC for BackboneJS and server side MVC with custom built ORM's to get a custom JSON to render the data in the templates</li>
+                <li>The following tools like jQuery, Ajax, PostgreSQL, JavaScript, Node.js, express, express-sessions, BackboneJS, sockets.io, google maps API, 3D JavaScript library from mrdoob, sessionStorage, localStorage and parallax feature were used
+                  to build this project.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<!-- <div id="section4">
+  <!-- <div id="section4">
    
 
 </div> -->
 
-<div id="bottom">
+  <div id="bottom">
 
-<footer id="section4" class="footer-distributed">
+    <footer id="section4" class="footer-distributed">
 
-			<div class="footer-left">
+      <div class="footer-left">
 
-				<h3>My<span> Portfolio</span></h3>
+        <h3>My<span> Portfolio</span></h3>
 
-				<p class="footer-links">
-					
-					<p><span class="glyphicon glyphicon-envelope"></span> pradhanr03@gmail.com
-				</p>
+        <p class="footer-links">
 
-				<p class="footer-company-name">Rubina Pradhan &copy; 2015</p>
+          <p><span class="glyphicon glyphicon-envelope"></span> pradhanr03@gmail.com
+          </p>
 
-				<div class="footer-icons">
+          <p class="footer-company-name">Rubina Pradhan &copy; 2015</p>
 
-					<a href="https://www.linkedin.com/in/rubinapradhan" class='test' data-toggle="tooltip" data-placement="top" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
-					<a href="https://github.com/pradhanr03" class='test' data-toggle="tooltip" data-placement="bottom" title="Github" target="_blank"><i class="fa fa-github"></i></a>
-					<a href="/assets/images/dev_resume.pdf" class='test' data-toggle="tooltip" data-placement="right" title="Resume" target="_blank"><i class="fa fa-file-pdf-o" ></i></a>
-					<h3 id="popup"></h3>
- 
-  
+          <div class="footer-icons">
 
-				</div>
-
-			</div>
+            <a href="https://www.linkedin.com/in/rubinapradhan" class='test' data-toggle="tooltip" data-placement="top" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a href="https://github.com/pradhanr03" class='test' data-toggle="tooltip" data-placement="bottom" title="Github" target="_blank"><i class="fa fa-github"></i></a>
+            <a href="/assets/images/dev_resume.pdf" class='test' data-toggle="tooltip" data-placement="right" title="Resume" target="_blank"><i class="fa fa-file-pdf-o" ></i></a>
+            <h3 id="popup"></h3>
 
 
-			
 
-			<div class="footer-right">
+          </div>
 
-				<p>Contact Me</p>
-<!-- 
+      </div>
+
+
+
+
+      <div class="footer-right">
+
+        <p>Contact Me</p>
+        <!-- 
 				<form > -->
-				<div class="email">
-				
-
-					<input type="text" id='mailbox' name="mail" placeholder="Email" required/>
-					<textarea name="message" id="msgbox" placeholder="Message"></textarea>
-					<button id="send">Send</button>
-				</div>
-				<!-- </form> -->
-
-			</div>
-
-		</footer>
-</div>
+        <div class="email">
 
 
+          <input type="text" id='mailbox' name="mail" placeholder="Email" required/>
+          <textarea name="message" id="msgbox" placeholder="Message"></textarea>
+          <button id="send">Send</button>
+        </div>
+        <!-- </form> -->
+
+      </div>
+
+    </footer>
+  </div>
 
 
 
-<script>
-$(document).ready(function(){
-	
-  // Add scrollspy to <body>
-  $('body').scrollspy({target: ".navbar", offset: 50});   
 
-  // Add smooth scrolling on all links inside the navbar
-  $("#myNavbar a").on('click', function(event) {
 
-    // Prevent default anchor click behavior
-    event.preventDefault();
+  <script>
+    $(document).ready(function() {
 
-    // Store hash
-    var hash = this.hash;
+      // Add scrollspy to <body>
+      $('body').scrollspy({
+        target: ".navbar",
+        offset: 50
+      });
 
-    // Using jQuery's animate() method to add smooth page scroll
-    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-    $('html, body').animate({
-      scrollTop: $(hash).offset().top
-    }, 800, function(){
-   
-      // Add hash (#) to URL when done scrolling (default click behavior)
-      window.location.hash = hash;
+      // Add smooth scrolling on all links inside the navbar
+      $("#myNavbar a").on('click', function(event) {
+
+        // Prevent default anchor click behavior
+        event.preventDefault();
+
+        // Store hash
+        var hash = this.hash;
+
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 800, function() {
+
+          // Add hash (#) to URL when done scrolling (default click behavior)
+          window.location.hash = hash;
+        });
+      });
     });
-  });
-});
-</script>
+  </script>
 
-<!-- bootstrap stuff end -->
+  <!-- bootstrap stuff end -->
 
- <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
- <script src="/javascript/app.js"></script>
+  <script src="/javascript/app.js"></script>
 
 
 
@@ -769,5 +787,6 @@ $(document).ready(function(){
 
 
 
-	</body>
+</body>
+
 </html>
