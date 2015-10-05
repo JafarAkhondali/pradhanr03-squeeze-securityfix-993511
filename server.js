@@ -1,32 +1,21 @@
 var root = __dirname;
 var express = require('express');
-// var fs = require('fs');
 var app = express();
 var dotenv = require('dotenv');
 dotenv.load();
-// var http = require("http");
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var methodOverride = require('method-override');
 var logger = require('morgan');
 var path = require('path');
-
 var router = express.Router();
-
-// var http = require('http').Server(app);
-
-
-
-
-var sendkey = process.env.SECRET_KEY;
-var sendgrid = require('sendgrid')(sendkey);
-
 app.set('port', (process.env.PORT || 3000));
-
-
 app.listen(app.get('port'), function() {
     console.log("App running on port : ", app.get('port'));
 });
+
+var sendkey = process.env.SECRET_KEY;
+var sendgrid = require('sendgrid')(sendkey);
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
@@ -53,16 +42,6 @@ app.use(methodOverride(function(req, res) {
         return method
     }
 }));
-
-
-
-// fs.readdirSync('./controllers').forEach(function (file) {
-//  if(file.substr(-3) == '.js') {
-//      route = require('./controllers/' + file);
-//      console.log('this is the route', route);
-//      route.controller(app);
-//  };
-// });
 
 
 
