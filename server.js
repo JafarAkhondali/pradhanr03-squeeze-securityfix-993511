@@ -73,3 +73,11 @@ app.post('/send', function(req, res) {
         res.send('yay');
     });
 });
+
+app.get('/', function(req, res) {
+    res.render('home');
+});
+
+app.get('/demo-projects', function(req, res) {
+    res.render('demo');
+});

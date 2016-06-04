@@ -1,0 +1,921 @@
+<div id="preloader">
+  <div id="status"></div>
+</div>
+
+<!-- FullScreen -->
+  <div class="intro-header">
+  <div class="col-xs-12 text-center abcen1">
+     <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s" style="font-family: Montserrat;color: rgba(70, 74, 74, 0.15);font-size: 4rem;">Rubina Pradhan</h3>
+    <div id="container"></div>
+
+    <!-- start of three.js -->
+    <script src="/three/build/three.min.js"></script>
+    <script src="/three/build/three.js"></script>
+    <script src="/three/examples/js/renderers/Projector.js"></script>
+    <script src="/three/examples/js/renderers/CanvasRenderer.js"></script>
+    <script src="/three/examples/js/libs/stats.min.js"></script>
+    <script src="/three/examples/obj/Bird.js"></script>
+    <script>
+    // Based on http://www.openprocessing.org/visuals/?visualID=6910
+
+    var Boid = function() {
+
+        var vector = new THREE.Vector3(),
+            _acceleration, _width = 500,
+            _height = 700,
+            _depth = 200,
+            _goal, _neighborhoodRadius = 100,
+            _maxSpeed = 4,
+            _maxSteerForce = 0.1,
+            _avoidWalls = false;
+
+        this.position = new THREE.Vector3();
+        this.velocity = new THREE.Vector3();
+        _acceleration = new THREE.Vector3();
+
+        this.setGoal = function(target) {
+
+            _goal = target;
+
+        }
+
+        this.setAvoidWalls = function(value) {
+
+            _avoidWalls = value;
+
+        }
+
+        this.setWorldSize = function(width, height, depth) {
+
+            _width = width;
+            _height = height;
+            _depth = depth;
+
+        }
+
+        this.run = function(boids) {
+
+            if (_avoidWalls) {
+
+                vector.set(-_width, this.position.y, this.position.z);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+                vector.set(_width, this.position.y, this.position.z);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+                vector.set(this.position.x, -_height, this.position.z);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+                vector.set(this.position.x, _height, this.position.z);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+                vector.set(this.position.x, this.position.y, -_depth);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+                vector.set(this.position.x, this.position.y, _depth);
+                vector = this.avoid(vector);
+                vector.multiplyScalar(5);
+                _acceleration.add(vector);
+
+            }
+            /* else {
+
+                        this.checkBounds();
+
+                      }
+                      */
+
+            if (Math.random() > 0.5) {
+
+                this.flock(boids);
+
+            }
+
+            this.move();
+
+        }
+
+        this.flock = function(boids) {
+
+            if (_goal) {
+
+                _acceleration.add(this.reach(_goal, 0.005));
+
+            }
+
+            _acceleration.add(this.alignment(boids));
+            _acceleration.add(this.cohesion(boids));
+            _acceleration.add(this.separation(boids));
+
+        }
+
+        this.move = function() {
+
+            this.velocity.add(_acceleration);
+
+            var l = this.velocity.length();
+
+            if (l > _maxSpeed) {
+
+                this.velocity.divideScalar(l / _maxSpeed);
+
+            }
+
+            this.position.add(this.velocity);
+            _acceleration.set(0, 0, 0);
+
+        }
+
+        this.checkBounds = function() {
+
+            if (this.position.x > _width) this.position.x = -_width;
+            if (this.position.x < -_width) this.position.x = _width;
+            if (this.position.y > _height) this.position.y = -_height;
+            if (this.position.y < -_height) this.position.y = _height;
+            if (this.position.z > _depth) this.position.z = -_depth;
+            if (this.position.z < -_depth) this.position.z = _depth;
+
+        }
+
+        //
+
+        this.avoid = function(target) {
+
+            var steer = new THREE.Vector3();
+
+            steer.copy(this.position);
+            steer.sub(target);
+
+            steer.multiplyScalar(1 / this.position.distanceToSquared(target));
+
+            return steer;
+
+        }
+
+        this.repulse = function(target) {
+
+            var distance = this.position.distanceTo(target);
+
+            if (distance < 150) {
+
+                var steer = new THREE.Vector3();
+
+                steer.subVectors(this.position, target);
+                steer.multiplyScalar(0.5 / distance);
+
+                _acceleration.add(steer);
+
+            }
+
+        }
+
+        this.reach = function(target, amount) {
+
+            var steer = new THREE.Vector3();
+
+            steer.subVectors(target, this.position);
+            steer.multiplyScalar(amount);
+
+            return steer;
+
+        }
+
+        this.alignment = function(boids) {
+
+            var boid, velSum = new THREE.Vector3(),
+                count = 0;
+
+            for (var i = 0, il = boids.length; i < il; i++) {
+
+                if (Math.random() > 0.6) continue;
+
+                boid = boids[i];
+
+                distance = boid.position.distanceTo(this.position);
+
+                if (distance > 0 && distance <= _neighborhoodRadius) {
+
+                    velSum.add(boid.velocity);
+                    count++;
+
+                }
+
+            }
+
+            if (count > 0) {
+
+                velSum.divideScalar(count);
+
+                var l = velSum.length();
+
+                if (l > _maxSteerForce) {
+
+                    velSum.divideScalar(l / _maxSteerForce);
+
+                }
+
+            }
+
+            return velSum;
+
+        }
+
+        this.cohesion = function(boids) {
+
+            var boid, distance,
+                posSum = new THREE.Vector3(),
+                steer = new THREE.Vector3(),
+                count = 0;
+
+            for (var i = 0, il = boids.length; i < il; i++) {
+
+                if (Math.random() > 0.6) continue;
+
+                boid = boids[i];
+                distance = boid.position.distanceTo(this.position);
+
+                if (distance > 0 && distance <= _neighborhoodRadius) {
+
+                    posSum.add(boid.position);
+                    count++;
+
+                }
+
+            }
+
+            if (count > 0) {
+
+                posSum.divideScalar(count);
+
+            }
+
+            steer.subVectors(posSum, this.position);
+
+            var l = steer.length();
+
+            if (l > _maxSteerForce) {
+
+                steer.divideScalar(l / _maxSteerForce);
+
+            }
+
+            return steer;
+
+        }
+
+        this.separation = function(boids) {
+
+            var boid, distance,
+                posSum = new THREE.Vector3(),
+                repulse = new THREE.Vector3();
+
+            for (var i = 0, il = boids.length; i < il; i++) {
+
+                if (Math.random() > 0.6) continue;
+
+                boid = boids[i];
+                distance = boid.position.distanceTo(this.position);
+
+                if (distance > 0 && distance <= _neighborhoodRadius) {
+
+                    repulse.subVectors(this.position, boid.position);
+                    repulse.normalize();
+                    repulse.divideScalar(distance);
+                    posSum.add(repulse);
+
+                }
+
+            }
+
+            return posSum;
+
+        }
+
+    }
+    </script>
+    <script>
+    // var SCREEN_WIDTH = window.innerWidth,
+    // SCREEN_HEIGHT = window.innerHeight,
+
+    var SCREEN_WIDTH = 1285,
+        SCREEN_HEIGHT = 600,
+        SCREEN_WIDTH_HALF = SCREEN_WIDTH / 2,
+        SCREEN_HEIGHT_HALF = SCREEN_HEIGHT / 2;
+
+    var camera, scene, renderer,
+        birds, bird;
+
+    var boid, boids;
+
+    var stats;
+
+    init();
+    animate();
+
+    function init() {
+
+        camera = new THREE.PerspectiveCamera(75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
+        camera.position.z = 450;
+
+        scene = new THREE.Scene();
+
+        birds = [];
+        boids = [];
+
+        for (var i = 0; i < 200; i++) {
+
+            boid = boids[i] = new Boid();
+            boid.position.x = Math.random() * 400 - 200;
+            boid.position.y = Math.random() * 400 - 200;
+            boid.position.z = Math.random() * 400 - 200;
+            boid.velocity.x = Math.random() * 2 - 1;
+            boid.velocity.y = Math.random() * 2 - 1;
+            boid.velocity.z = Math.random() * 2 - 1;
+            boid.setAvoidWalls(true);
+            boid.setWorldSize(500, 600, 400);
+
+            bird = birds[i] = new THREE.Mesh(new Bird(), new THREE.MeshBasicMaterial({
+                color: Math.random() * 0xffffff,
+                side: THREE.DoubleSide
+            }));
+            bird.phase = Math.floor(Math.random() * 62.83);
+            scene.add(bird);
+
+
+        }
+
+        // renderer = new THREE.CanvasRenderer();
+        renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+
+        // renderer.setClearColor( 0xffffff );
+        renderer.setClearColor(0xffffff, 0);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.body.appendChild(renderer.domElement);
+
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+
+        // document.getElementById( 'container' ).appendChild(stats.domElement);
+
+        //
+
+        window.addEventListener('resize', onWindowResize, false);
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, 600);
+
+    }
+
+    function onDocumentMouseMove(event) {
+
+        var vector = new THREE.Vector3(event.clientX - SCREEN_WIDTH_HALF, -event.clientY + SCREEN_HEIGHT_HALF, 0);
+
+        for (var i = 0, il = boids.length; i < il; i++) {
+
+            boid = boids[i];
+
+            vector.z = boid.position.z;
+
+            boid.repulse(vector);
+
+        }
+
+    }
+
+    //
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+        render();
+        stats.update();
+
+    }
+
+    function render() {
+
+        for (var i = 0, il = birds.length; i < il; i++) {
+
+            boid = boids[i];
+            boid.run(boids);
+
+            bird = birds[i];
+            bird.position.copy(boids[i].position);
+
+            color = bird.material.color;
+            color.r = color.g = color.b = (500 - bird.position.z) / 1000;
+
+            bird.rotation.y = Math.atan2(-boid.velocity.z, boid.velocity.x);
+            bird.rotation.z = Math.asin(boid.velocity.y / boid.velocity.length());
+
+            bird.phase = (bird.phase + (Math.max(0, bird.rotation.z) + 0.1)) % 62.83;
+            bird.geometry.vertices[5].y = bird.geometry.vertices[4].y = Math.sin(bird.phase) * 5;
+
+        }
+
+        renderer.render(scene, camera);
+
+    }
+    </script>
+   <!-- end of three.js -->
+
+  </div>
+      <!-- /.container -->
+  <div class="col-xs-12 text-center abcen wow fadeIn">
+    <div class="button_down ">
+      <a class="imgcircle wow bounceInUp" data-wow-duration="1.5s"  href="#useit"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
+    </div>
+  </div>
+  </div>
+
+<!-- NavBar-->
+<nav class="navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#home">Rubina Pradhan</a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+
+        <li class="menuItem"><a href="#useit">About</a></li>
+        <li class="menuItem"><a href="#credits">Portfolio</a></li>
+        <li class="menuItem"><a href="#screen">Screenshot</a></li>
+        <li class="menuItem"><a href="/demo-projects">Contact</a></li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- What is -->
+
+
+<!-- Use it -->
+  <div id ="useit" class="content-section-a" style="background-color:white;">
+
+      <div class="container">
+
+          <div class="row">
+
+      <div class="col-sm-6 pull-right wow fadeInRightBig">
+        <div style="width:555px;height:430px;">
+          <div id="loading">
+            <h5>Loading...</h5>
+          </div>
+          <div id="container-helix"></div>
+        </div>
+
+      </div>
+
+              <div class="col-sm-6 wow fadeInLeftBig"  data-animation-delay="200">
+                  <h3 class="section-heading">About Me</h3>
+        <div class="sub-title lead3">Web Developer who loves making cool stuff.<br>
+        <p class="lead">
+          I'm a Full Stack Developer from New York, New York. I love to code and tackle challenging problems resulting in beautiful functional websites. My current weapons of choice are JavaScript, JQuery, Node.js, ReactJS, ExpressJS, Backbone.js, AngularJS, postgreSQL, Ruby on Rails, sendGrid API, Bootstrap, CSS3, HTML5, Ajax and many more  <span class="glyphicon glyphicon-hand-right"></span>.
+        </p>
+        <p> If you think my <a href="#credits">projects</a> are cool and want to work with me or just say "Hey Ruby, what's up?" for no reason what so ever, send me an <a href="#contact">email</a>.
+        </p>
+        <p>
+          When I'm not coding, I am exploring the nature or you'll find me in the gym. I love to run, swim, hike, bike, etc. Yes, in that order ;)
+        </p>
+      </div>
+          </div>
+      </div>
+      <!-- /.container -->
+  </div>
+
+  <div class="content-section-b">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 wow fadeInLeftBig">
+        <a href="img/ruby.jpg" class="image-link">
+          <div class="item">
+            <img  class="img-responsive img-rounded" src="img/ruby.jpg" alt="">
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-6 wow fadeInRightBig"  data-animation-delay="200">
+        <h3 class="section-heading">Random Facts</h3>
+        <p class="lead">I can't live without coffee</p>
+        <p class="lead">I like running outdoors rather than a treadmill</p>
+        <p class="lead">I love listening to house music</p>
+        <p class="lead">I dislike coffee shops that has no wifi</p>
+        <p class="lead">If i was a Dinasaur, I'd be the sauropods because I like the green leaves too and also because they're nicer than the other ones atleast in the movie.</p>
+        <p class="lead">I love all dogs and the grumpy cat</p>
+      </div>
+    </div>
+      </div>
+  </div>
+
+  <!-- Credits -->
+  <div id="credits" class="content-section-a">
+    <div class="container">
+      <div class="row">
+
+      <div class="col-md-6 col-md-offset-3 text-center wrap_title">
+        <h2>Portfolio</h2>
+       </div>
+       <!-- Portfolio Grid Section -->
+
+ <!-- Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+   <div class="modal-dialog modal-overwrite">
+
+     <!-- Modal content-->
+     <div class="modal-content" style="height:100%;">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title">Modal Header</h4>
+       </div>
+       <div class="modal-body">
+         <p>Some text in the modal.</p>
+       </div>
+     </div>
+
+   </div>
+ </div>
+
+
+ <div class="container">
+    <div class="row templatemorow">
+  <div class="hex col-sm-6" data-toggle="modal" data-target="#myModal">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/kidpass.png);background-size:100% 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="hex col-sm-6  templatemo-hex-top2">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/profilepage.png);background-size:100% 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="hex col-sm-6  templatemo-hex-top3">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/circuly.png);background-size:100% 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="hex col-sm-6  templatemo-hex-top3">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/skine.png);background-size:100% 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+       <div class="hex col-sm-6 hex-offset templatemo-hex-top1 templatemo-hex-top2">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/sos.png);background-size:100% 100%;">
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+   <div class="hex col-sm-6 templatemo-hex-top1 templatemo-hex-top3">
+    <div>
+        <div class="hexagon hexagon2 gallery-item">
+          <div class="hexagon-in1">
+            <div class="hexagon-in2" style="background-image: url(img/wick.png);background-size:100% 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    </div>
+</div>
+
+
+          </div>
+        </div>
+    </div>
+
+
+
+
+<!-- Screenshot -->
+<div id="screen" class="content-section-b">
+      <div class="container">
+        <div class="row" >
+     <div class="col-md-6 col-md-offset-3 text-center wrap_title ">
+      <h2>Screen App</h2>
+      <p class="lead" style="margin-top:0">A special thanks to Death.</p>
+     </div>
+    </div>
+      <div class="row wow bounceInUp" >
+            <div id="owl-demo" class="owl-carousel">
+
+      <a href="img/slide/1.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
+        </div>
+      </a>
+
+             <a href="img/slide/2.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
+        </div>
+      </a>
+
+      <a href="img/slide/3.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
+        </div>
+      </a>
+
+      <a href="img/slide/1.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
+        </div>
+      </a>
+
+             <a href="img/slide/2.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
+        </div>
+      </a>
+
+      <a href="img/slide/3.png" class="image-link">
+        <div class="item">
+          <img  class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
+        </div>
+      </a>
+            </div>
+        </div>
+      </div>
+
+
+</div>
+
+<div  class="content-section-c ">
+  <div class="container">
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center white">
+      <h2>Get Live Updates</h2>
+      <p class="lead" style="margin-top:0">A special thanks to Death.</p>
+     </div>
+    <div class="col-md-6 col-md-offset-3 text-center">
+      <div class="mockup-content">
+          <div class="morph-button wow pulse morph-button-inflow morph-button-inflow-1">
+            <button type="button "><span>Subscribe to our Newsletter</span></button>
+            <div class="morph-content">
+              <div>
+                <div class="content-style-form content-style-form-4 ">
+                  <h2 class="morph-clone">Subscribe to our Newsletter</h2>
+                  <form>
+                    <p><label>Your Email Address</label><input type="text"/></p>
+                    <p><button>Subscribe me</button></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>>
+  </div>
+</div>
+
+
+<!-- Banner Download -->
+<div id="downloadlink" class="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 text-center wrap_title">
+      <h2>Download Free</h2>
+      <p class="lead" style="margin-top:0">Pay with a Tweet</p>
+      <p><a class="btn btn-embossed btn-primary view" role="button">Free Download</a></p>
+     </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div id="contact" class="content-section-a">
+  <div class="container">
+    <div class="row">
+
+    <div class="col-md-6 col-md-offset-3 text-center wrap_title">
+      <h2>Contact Us</h2>
+      <p class="lead" style="margin-top:0">A special thanks to Death.</p>
+    </div>
+
+    <form role="form" action="" method="post" >
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="InputName">Your Name</label>
+          <div class="input-group">
+            <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
+            <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="InputEmail">Your Email</label>
+          <div class="input-group">
+            <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email" required  >
+            <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="InputMessage">Message</label>
+          <div class="input-group">
+            <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
+            <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+          </div>
+        </div>
+
+        <input type="submit" name="submit" id="submit" value="Submit" class="btn wow tada btn-embossed btn-primary pull-right">
+      </div>
+    </form>
+
+    <hr class="featurette-divider hidden-lg">
+      <div class="col-md-5 col-md-push-1 address">
+        <address>
+        <h3>Office Location</h3>
+        <p class="lead"><a href="https://www.google.com/maps/preview?ie=UTF-8&q=The+Pentagon&fb=1&gl=us&hq=1400+Defense+Pentagon+Washington,+DC+20301-1400&cid=12647181945379443503&ei=qmYfU4H8LoL2oATa0IHIBg&ved=0CKwBEPwSMAo&safe=on">The Pentagon<br>
+        Washington, DC 20301</a><br>
+        Phone: XXX-XXX-XXXX<br>
+        Fax: XXX-XXX-YYYY</p>
+        </address>
+
+        <h3>Social</h3>
+        <li class="social">
+        <a href="#"><i class="fa fa-facebook-square fa-size"> </i></a>
+        <a href="#"><i class="fa  fa-twitter-square fa-size"> </i> </a>
+        <a href="#"><i class="fa fa-google-plus-square fa-size"> </i></a>
+        <a href="#"><i class="fa fa-flickr fa-size"> </i> </a>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Portfolio Modals -->
+<!-- Use the modals below to showcase details about your portfolio projects! -->
+
+<!-- Portfolio Modal 1 -->
+<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+      <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+              <div class="rl">
+              </div>
+          </div>
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-lg-offset-2">
+                  <div class="modal-body">
+                      <!-- Project Details Go Here -->
+                      <!-- Map -->
+
+                      <div>
+                        <div class="sqs-block-content"><h1 class="text-align-center">Directions</h1><p class="text-align-center">Fly into SMF airport</p><p class="text-align-center">Recommended flight options from New York:</p><p class="text-align-center">1.&nbsp;<span>Delta/American Airlines connecting from NYC as of 4/25/16 -- $293</span></p></div>
+                        <div class="sqs-block-content"><h3 class="text-align-center">Driving</h3>
+                          <p class="text-align-center">43 mins from the Sacramento Airport</p>
+                          <p class="text-align-center">1 hour 15 mins from Oakland</p>
+                          <p class="text-align-center">1 hour 30 mins from San Francisco</p>
+                          <p class="text-align-center">1 hour 50 mins from San Jose</p>
+                          <p class="text-align-center">5 hour 30 mins from Los Angeles</p>
+                          <p class="text-align-center">Please note there will be heavy traffic, so please allow extra time to leave earlier</p></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Portfolio Modal 2 -->
+<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="close-modal" data-dismiss="modal">
+        <div class="lr">
+            <div class="rl">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><h3 class="text-align-center">Holiday Inn Express & Suites  </h3>
+        <p class="text-align-center">IHG® | 2460 Maritime Dr, Elk Grove, CA 95758 </p>
+        <p class="text-align-center">General Manager-- Jagjit Singh </p>
+        <p class="text-align-center">Tel: 916 478 4000 </p>
+        <p class="text-align-center">604-695-5300</p><p class="text-align-center">Please call the # and mention you're staying for Vivian & Daniel's wedding.  We have a block of rooms on hold until 7/29/16</p>
+        <p class="text-align-center">King bed or two Queens</p>
+        <p class="text-align-center">$119 + tax Friday includes breakfast 8/19</p>
+        <p class="text-align-center">$119 + tax Sunday includes breakfast 8/21</p>
+        <p class="text-align-center">King bed or two Queens</p>
+        <p class="text-align-center">$149 + tax Saturday includes breakfast and shuttle to and from venue 8/20</p></div>
+    </div>
+  </div>
+</div>
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h3 class="footer-title">Follow Me!</h3>
+          <p>Vuoi ricevere news su altri template?<br/>
+            Visita Andrea Galanti.it e vedrai tutte le news riguardanti nuovi Theme!<br/>
+            Go to: <a  href="http://andreagalanti.it" target="_blank">andreagalanti.it</a>
+          </p>
+
+    <!-- LICENSE -->
+    <a rel="cc:attributionURL" href="http://www.andreagalanti.it/flatfy"
+     property="dc:title">Flatfy Theme </a> by
+     <a rel="dc:creator" href="http://www.andreagalanti.it"
+     property="cc:attributionName">Andrea Galanti</a>
+     is licensed to the public under
+     <BR>the <a rel="license"
+     href="http://creativecommons.org/licenses/by-nc/3.0/it/deed.it">Creative
+     Commons Attribution 3.0 License - NOT COMMERCIAL</a>.
+
+
+        </div> <!-- /col-xs-7 -->
+
+        <div class="col-md-5">
+          <div class="footer-banner">
+            <h3 class="footer-title">Flatfy Theme</h3>
+            <ul>
+              <li>12 Column Grid Bootstrap</li>
+              <li>Form Contact</li>
+              <li>Drag Gallery</li>
+              <li>Full Responsive</li>
+              <li>Lorem Ipsum</li>
+            </ul>
+            Go to: <a href="http://andreagalanti.it/flatfy" target="_blank">andreagalanti.it/flatfy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- <script src="lib/three.min.js"></script> -->
+  <script src="lib/tween.js"></script>
+  <script src="lib/CSS3DRenderer.js"></script>
+  <script src="lib/TrackballControls.js"></script>
+  <script src="lib/d3.min.js"></script>
+  <script src="js/viz.js"></script>
+  <script>
+    d3.json("data/investments.json", function (error, data) {
+      VIZ.drawElements(data);
+      VIZ.transform('helix');
+      d3.select("#loading").remove();
+      VIZ.render();
+      VIZ.animate();
+      window.addEventListener('resize', VIZ.onWindowResize, false);
+    });
+  </script>

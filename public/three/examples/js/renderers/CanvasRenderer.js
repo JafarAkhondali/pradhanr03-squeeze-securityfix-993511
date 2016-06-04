@@ -53,6 +53,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 	_canvasHeight = _canvas.height,
 	_canvasWidthHalf = Math.floor( _canvasWidth / 2 ),
 	_canvasHeightHalf = Math.floor( _canvasHeight / 2 ),
+	_canvasPosition = 'relative',
 
 	_viewportX = 0,
 	_viewportY = 0,

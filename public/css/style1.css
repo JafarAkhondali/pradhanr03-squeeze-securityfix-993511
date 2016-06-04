@@ -1,0 +1,536 @@
+body {
+  background: url(../assets/images/portfolio.jpg) no-repeat;
+  background-size: 100% 2712px;
+  background-color: darkgrey;
+  /*width: 1285px;*/
+  width: 100%;
+  height: 3060px;
+  overflow-y: scroll;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.navbar-bottom {
+  margin-top: 443px;
+}
+
+#mail {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 0px;
+  margin-top: 60px;
+}
+
+#project {
+  position: static;
+}
+
+#port {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+  height: 520px;
+  padding-top: 220px;
+  margin-bottom: 0px;
+  margin-top: 45%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  /*top: 100px;*/
+  bottom: 15%;
+}
+
+.project1 {
+  background: url(../assets/images/wicki.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  border: 5px solid black;
+  overflow: hidden;
+  position: relative;
+}
+
+@media only screen and (max-width:600px) {
+  .project1 {
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+}
+
+.project1:hover {
+  background: url(../assets/images/wicki.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.project2 {
+  background: url(../assets/images/sos.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+@media only screen and (max-width:600px) {
+  .project2 {
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+}
+
+.project2:hover {
+  background: url(../assets/images/sos.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.project3 {
+  background: url(../assets/images/skincare.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+@media only screen and (max-width:600px) {
+  .project3 {
+    width: 300px;
+    height: 300px;
+    position: relative;
+  }
+}
+
+.project3:hover {
+  background: url(../assets/images/skincare.jpg) no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.project3:hover {
+  cursor: hand;
+  cursor: pointer;
+}
+
+.project2:hover {
+  cursor: hand;
+  cursor: pointer;
+}
+
+.project1:hover {
+  cursor: hand;
+  cursor: pointer;
+}
+
+.modal {
+  width: 80%;
+  height: 600px;
+  margin-bottom: 0px;
+  margin-top: 60px;
+}
+
+.modal-body {
+  width: 100%;
+  height: 400px;
+  background-color: white;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  overflow-y: scroll;
+}
+
+#popup {
+  /*position:absolute;*/
+  /*margin-top: 10%;
+  margin-left: 48%;*/
+  /*width:100px;
+  height:10px; */
+  z-index: 9002;
+}
+
+.description {
+  width: 60%;
+  height: 100%;
+}
+
+
+/*
+#footer {
+    height: 25px;
+    margin-bottom: 0px;
+    position: absolute;
+}
+*/
+
+#section2 a:hover {
+  cursor: pointer;
+  /*cursor: hand;*/
+}
+
+
+/*#tower {
+  margin-top: -4%;
+  height: 48%;
+  width: 5.8%;
+  background: rgba(0,0,0,0.0);
+  margin-left: 55.5%;
+}*/
+
+.hand {
+  margin-top: -450px;
+  background: url(../assets/images/scroll.gif) no-repeat;
+  background-size: 65px 80px;
+  margin-left: 50%;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 33%;
+}
+
+.hand button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#pic1 {
+  position: fixed;
+  background: url(../assets/images/cap1.png) no-repeat 58.64% 95.14%;
+  background-size: 5.3% 20%;
+  /*margin-top: 50px;*/
+  width: 100%;
+  height: 1000px;
+  z-index: 400;
+}
+
+body {
+  position: relative;
+}
+
+
+/*.navbar.transparent.navbar-inverse .navbar-inner {
+    border-width: 0px;
+    -webkit-box-shadow: 0px 0px;
+    box-shadow: 0px 0px;
+    background-color: rgba(0,0,0,0.0);
+    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , rgba(0,0,0,0.00)),color-stop( 100% , rgba(0,0,0,0.00)));
+    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+}*/
+
+.affix {
+  top: 0;
+  width: 99.9%;
+  z-index: 9999 !important;
+}
+
+.navbar {
+  margin-bottom: 0px;
+  /* width: 100%;*/
+}
+
+.affix ~ .container-fluid {
+  position: relative;
+  top: 50px;
+}
+
+.affix-top {
+  top: 50%;
+}
+
+#about {
+  position: static;
+  height: 500px;
+  width: 500px;
+}
+
+#section1 {
+  padding-top: 40px;
+  /*height:100%; */
+  width: 48%;
+  color: #505050;
+  margin-left: 3%;
+  background-color: rgba(156, 196, 216, 0.8);
+  border-radius: 5%;
+  position: absolute;
+  top: 33%;
+}
+
+#section4 {
+  /*  padding-top:300px;*/
+  height: 350px;
+  width: 100%;
+  color: #fff;
+  /* margin-top: 610px;*/
+}
+
+#section3 {
+  /*padding-top:160px;
+    height:200px;
+    width:500px;
+    color: #fff;
+    margin-left: 3%; */
+  /* margin-top: 610px;*/
+}
+
+#bottom {
+  /*width: 100%;*/
+  position: static;
+  bottom: 0;
+  margin-bottom: 0;
+  /*  top: 16%;*/
+}
+
+#bottom .footer-distributed {
+  background-color: #292c2f;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  width: 100%;
+  font: bold 16px sans-serif;
+  text-align: left;
+  padding: 50px 60px 40px;
+  /*margin-top: 120px;*/
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+/* Footer left */
+
+.footer-distributed .footer-left {
+  float: left;
+}
+
+
+/* The company logo */
+
+.footer-distributed h3 {
+  color: #ffffff;
+  font: normal 36px 'Cookie', cursive;
+  margin: 0 0 10px;
+}
+
+.footer-distributed h3 span {
+  color: #5383d3;
+}
+
+
+/* Footer links */
+
+.footer-distributed .footer-links {
+  color: #ffffff;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.footer-distributed .footer-links a {
+  display: inline-block;
+  line-height: 1.8;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-distributed .footer-company-name {
+  color: #8f9296;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+
+
+/* Footer social icons */
+
+.footer-distributed .footer-icons {
+  margin-top: 40px;
+}
+
+.footer-distributed .footer-icons a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color: #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+}
+
+
+/* Footer Right */
+
+.footer-distributed .footer-right {
+  float: right;
+}
+
+.footer-distributed .footer-right p {
+  display: inline-block;
+  vertical-align: top;
+  margin: 15px 42px 0 0;
+  color: #ffffff;
+}
+
+
+/* The contact form */
+
+.footer-distributed .email {
+  display: inline-block;
+}
+
+.footer-distributed .email input,
+.footer-distributed .email textarea {
+  display: block;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: #1f2022;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  border: none;
+  resize: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: normal;
+  color: #d1d2d2;
+  width: 400px;
+  padding: 18px;
+}
+
+.footer-distributed::-webkit-input-placeholder {
+  color: #5c666b;
+}
+
+.footer-distributed::-moz-placeholder {
+  color: #5c666b;
+  opacity: 1;
+}
+
+.footer-distributed:-ms-input-placeholder {
+  color: #5c666b;
+}
+
+.footer-distributed .email input {
+  height: 55px;
+  margin-bottom: 15px;
+}
+
+.footer-distributed .email textarea {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.footer-distributed .email button {
+  border-radius: 3px;
+  background-color: #33383b;
+  color: #ffffff;
+  border: 0;
+  padding: 15px 50px;
+  font-weight: bold;
+  float: right;
+}
+
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 1000px) {
+  .footer-distributed {
+    font: bold 14px sans-serif;
+  }
+  .footer-distributed .footer-company-name {
+    font-size: 12px;
+  }
+  .footer-distributed .email input,
+  .footer-distributed .email textarea {
+    width: 250px;
+  }
+  .footer-distributed .email button {
+    padding: 10px 35px;
+  }
+}
+
+@media (max-width: 800px) {
+  .footer-distributed {
+    padding: 30px;
+  }
+  .footer-distributed .footer-left,
+  .footer-distributed .footer-right {
+    float: none;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .footer-distributed .footer-left {
+    margin-bottom: 40px;
+  }
+  .footer-distributed .email {
+    margin-top: 30px;
+  }
+  .footer-distributed .email {
+    display: block;
+  }
+  .footer-distributed .email button {
+    float: none;
+  }
+}
+
+.test + .tooltip > .tooltip-inner {
+  background-color: #6699FF;
+  color: #FFFFFF;
+  border: 1px solid grey;
+  padding: 3px;
+  font-size: 16px;
+}
+
+
+/* Tooltip on top */
+
+.test + .tooltip.top > .tooltip-arrow {
+  border-top: 5px solid green;
+}
+
+
+/* Tooltip on bottom */
+
+.test + .tooltip.bottom > .tooltip-arrow {
+  border-bottom: 5px solid blue;
+}
+
+
+/* Tooltip on left */
+
+.test + .tooltip.left > .tooltip-arrow {
+  border-left: 5px solid red;
+}
+
+
+/* Tooltip on right */
+
+.test + .tooltip.right > .tooltip-arrow {
+  border-right: 5px solid black;
+}
