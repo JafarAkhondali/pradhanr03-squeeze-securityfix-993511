@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('#send').click(mail);
+  console.log('hello');
+  $('#send-email').on('click', mail);
 
 
 
