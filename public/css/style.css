@@ -4779,3 +4779,7 @@ canvas {
 
 
 	}
+
+  .modal-body ul li {
+     list-style-type: circle !important;
+  }

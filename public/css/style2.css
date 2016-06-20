@@ -19,10 +19,6 @@ h5 {
   padding-top: 35px;
 }*/
 
-.modal-overwrite {
-  width: 100% important;
-  margin: 0 important;
-}
 
 .axis path {
   fill: none;
@@ -154,7 +150,6 @@ h5 {
 button {
   color: #fff;
   background: transparent;
-  outline: 1px solid rgba(48,103,145,.75);
   border: 0px;
   padding: 5px 10px;
   cursor: pointer;
