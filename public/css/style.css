@@ -4783,3 +4783,11 @@ canvas {
   .modal-body ul li {
      list-style-type: circle !important;
   }
+
+  .input-group {
+    width: 100%;
+  }
+
+  .input-group-addon {
+    width: 7%;
+  }
