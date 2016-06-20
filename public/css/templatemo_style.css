@@ -556,7 +556,7 @@ a.menu-toggle-btn {
 and (min-device-width : 320px)
 and (max-width : 419px)	{
 	.hex	{ width: 50%; float: left; }
-	.templatemorow	{ margin: 0 5%; }
+	.templatemorow	{ margin: 0 5%; margin-bottom: 13rem;}
 	.hexagon2
 	{
 	position: absolute;

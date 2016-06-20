@@ -1,10 +1,23 @@
 $(document).ready(function() {
   console.log('hello');
   $('#send-email').on('click', mail);
-
-
+  $(window).scroll(function () {
+       //if you hard code, then use console
+       //.log to determine when you want the
+       //nav bar to stick.
+       console.log($(window).scrollTop())
+     if ($(window).scrollTop() > 352) {
+       $('.navbar').addClass('navbar-fixed');
+     }
+     if ($(window).scrollTop() < 352) {
+       $('.navbar').removeClass('navbar-fixed');
+     }
+   });
 
 });
+
+
+
 
 $(window).bind('scroll', function(e) {
     parallaxScroll();

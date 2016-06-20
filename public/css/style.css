@@ -4791,3 +4791,11 @@ canvas {
   .input-group-addon {
     width: 7%;
   }
+
+  .navbar-fixed {
+      top: 0;
+      z-index: 100;
+    position: fixed;
+      width: 100%;
+          background: rgba(255, 255, 255, 0.57);
+  }
