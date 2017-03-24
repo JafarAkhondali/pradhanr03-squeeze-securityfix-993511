@@ -556,7 +556,7 @@ a.menu-toggle-btn {
 and (min-device-width : 320px)
 and (max-width : 419px)	{
 	.hex	{ width: 50%; float: left; }
-	.templatemorow	{ margin: 0 5%; margin-bottom: 13rem;}
+	.templatemorow	{ margin: 0 5%; padding-bottom: 16rem;}
 	.hexagon2
 	{
 	position: absolute;
@@ -583,7 +583,7 @@ and (max-width : 419px)	{
 @media (min-width : 420px)
 and (max-width : 559px)	{
 	.hex	{ width: 50%; float: left; }
-	.templatemorow	{ margin: 0; }
+	.templatemorow	{ margin: 0; padding-top: 2rem;padding-bottom: 23rem; }
 	.hexagon2
 	{
 	position: absolute;
@@ -604,7 +604,7 @@ and (max-width : 559px)	{
 
 @media(min-width:560px) and (max-width:767px)	{
 	.hex	{ width: 50%; float: left; }
-	.templatemorow	{ margin: 0 10%; }
+	.templatemorow	{ margin: 0 10%; padding-top: 7rem; padding-bottom: 29rem;}
 	.hexagon2
 	{
 	position: absolute;
@@ -632,7 +632,7 @@ and (max-width : 559px)	{
 
 }
 @media(min-width:768px) and (max-width: 991px){
-	.templatemorow	{ margin: 0 4%; }
+	.templatemorow	{ margin: 0 4%; padding-top: 7rem; padding-bottom: 12rem; }
 	.hexagon2
 	{
 	position: absolute;
@@ -658,7 +658,7 @@ and (max-width : 559px)	{
 	.templatemo_gallerytop	{ margin-top: 14%; }
 }
 @media(min-width:992px){
-	.templatemorow	{ margin: 0 11%; }
+	.templatemorow	{ margin: 0 11%; padding-top: 7rem;padding-bottom: 17rem;}
 	.hexagon2
 	{
 	position: absolute;
@@ -689,7 +689,7 @@ and (max-width : 559px)	{
  }
 
 @media(min-width:1200px){
-	.templatemorow	{  margin-top: 19rem;  margin-bottom: 17rem; }
+	.templatemorow	{  padding-top: 7rem;  padding-bottom: 20rem; }
 	.hexagon2 {
 	position: absolute;
 	width: 200px;
