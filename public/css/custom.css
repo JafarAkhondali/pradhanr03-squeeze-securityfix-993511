@@ -113,6 +113,18 @@ padding: 8px 12px;
 	width: 100%;
 	height: auto;
 }
+
+#owl-demo .infor{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#owl-demo .infor img {
+	display: block;
+  width: auto;
+  height: 198px;
+}
 /* Footer */
 
 #footer{
@@ -418,4 +430,9 @@ NO MORE TABLES!! ;)
 		content: "Description:";
 		font-weight: bold;
 	}
+}
+
+.infor img {
+  width: auto;
+  height: 198px;
 }
