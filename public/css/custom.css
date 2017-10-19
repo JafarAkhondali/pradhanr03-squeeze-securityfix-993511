@@ -107,6 +107,7 @@ padding: 8px 12px;
 /*  Owl */
 #owl-demo .item{
 	margin: 4px;
+	margin-right: 4rem;
 }
 #owl-demo .item img{
 	display: block;
@@ -118,6 +119,7 @@ padding: 8px 12px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 7rem;
 }
 
 #owl-demo .infor img {

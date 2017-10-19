@@ -162,3 +162,10 @@ button:active {
   background-color: rgba(48,103,145,.75);
 }
 
+.image-link {
+  height: 196px;
+}
+
+.image-link img {
+  height: 196px !important;
+}
