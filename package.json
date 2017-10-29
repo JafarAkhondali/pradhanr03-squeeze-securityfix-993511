@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "sqeezepage",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -8,19 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pradhanr03/portfolio.git"
+    "url": "git+https://github.com/pradhanr03/squeeze.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pradhanr03/portfolio/issues"
+    "url": "https://github.com/pradhanr03/squeeze/issues"
   },
-  "homepage": "https://github.com/pradhanr03/portfolio#readme",
+  "homepage": "https://github.com/pradhanr03/squeeze#readme",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "compression": "^1.6.0",
-    "configuration": "^0.1.1",
-    "connect": "^3.4.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
@@ -29,7 +26,6 @@
     "morgan": "^1.6.1",
     "path": "^0.11.14",
     "pg": "^4.4.1",
-    "sendgrid": "^1.9.2",
-    "serve-static": "^1.10.0"
+    "sendgrid": "^1.9.2"
   }
 }

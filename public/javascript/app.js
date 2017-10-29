@@ -1,115 +1,107 @@
 $(document).ready(function() {
   console.log('hello');
-  $('#send-email').on('click', mail);
-  $(window).scroll(function () {
-       //if you hard code, then use console
-       //.log to determine when you want the
-       //nav bar to stick.
-       console.log($(window).scrollTop())
-     if ($(window).scrollTop() > 352) {
-       $('.navbar').addClass('navbar-fixed');
-     }
-     if ($(window).scrollTop() < 352) {
-       $('.navbar').removeClass('navbar-fixed');
-     }
-   });
+  var container, stats;
+  var camera, scene, renderer;
+  var raycaster;
+  var mouse;
+  var PI2 = Math.PI * 2;
+  var programFill = function ( context ) {
+      context.beginPath();
+      context.arc( 0, 0, 0.5, 0, PI2, true );
+      context.fill();
+  };
+  var programStroke = function ( context ) {
+      context.lineWidth = 0.025;
+      context.beginPath();
+      context.arc( 0, 0, 0.5, 0, PI2, true );
+      context.stroke();
+  };
+  var INTERSECTED;
+  init();
+  animate();
+  function init() {
+      container = document.createElement( 'div' );
+      container.style.position = 'absolute';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.zIndex = '-1';
+      document.body.appendChild( container );
+
+    //   var info = document.createElement( 'div' );
+    //   info.style.position = 'absolute';
+    //   info.style.top = '0';
+    //   info.style.left = '0';
+    //   container.appendChild( info );
+      camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+      camera.position.set( 0, 300, 500 );
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color( 0xf0f0f0 );
+      for ( var i = 0; i < 100; i ++ ) {
+          var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke} ));
+    
+          particle.position.x = Math.random() * 800 - 400;
+          particle.position.y = Math.random() * 800 - 400;
+          particle.position.z = Math.random() * 800 - 400;
+          particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
+          scene.add( particle );
+      }
+      
+      //
+      
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
+      renderer = new THREE.CanvasRenderer();
+      renderer.setPixelRatio( window.devicePixelRatio );
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      container.appendChild( renderer.domElement );
+      stats = new Stats();
+    //   container.appendChild( stats.domElement );
+      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+      //
+      window.addEventListener( 'resize', onWindowResize, false );
+  }
+  function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+  function onDocumentMouseMove( event ) {
+      event.preventDefault();
+      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  }
+  //
+  function animate() {
+      requestAnimationFrame( animate );
+      render();
+      stats.update();
+  }
+  var radius = 600;
+  var theta = 0;
+  function render() {
+      // rotate camera
+      theta += 0.1;
+      camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
+      camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
+      camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+      camera.lookAt( scene.position );
+      camera.updateMatrixWorld();
+      // find intersections
+      raycaster.setFromCamera( mouse, camera );
+      var intersects = raycaster.intersectObjects( scene.children );
+      if ( intersects.length > 0 ) {
+          if ( INTERSECTED != intersects[ 0 ].object ) {
+              if ( INTERSECTED ) INTERSECTED.material.program = programStroke;
+              INTERSECTED = intersects[ 0 ].object;
+              INTERSECTED.material.program = programFill;
+          }
+      } else {
+          if ( INTERSECTED ) INTERSECTED.material.program = programStroke;
+          INTERSECTED = null;
+      }
+      renderer.render( scene, camera );
+  }
 
 });
 
 
-
-
-$(window).bind('scroll', function(e) {
-    parallaxScroll();
-
-});
-
-
-function parallaxScroll() {
-    var scrolledY = $(window).scrollTop();
-
-    $('#pic1').css('top', '-' + ((scrolledY * 0.41)) + 'px');
-
-}
-
-function createCORSRequest(method, url) {
-    var xhr = new XMLHttpRequest();
-    if ("withCredentials" in xhr) {
-        // XHR has 'withCredentials' property only if it supports CORS
-        xhr.open(method, url, true);
-    } else if (typeof XDomainRequest != "undefined") { // if IE use XDR
-        xhr = new XDomainRequest();
-        xhr.open(method, url);
-    } else {
-        xhr = null;
-    }
-    return xhr;
-}
-
-
-
-
-var mail = function() {
-    console.log('hello');
-    var popup;
-    var data = {
-        mail: $('[name=mail]').val(),
-        message: $('[name=message]').val()
-    }
-    var email = $('[name=mail]').val();
-
-
-    if ((data.mail.length < 1) || (data.message.length < 1) || (data.mail.length < 1 && data.message.length < 1)) {
-
-        $('#popup').html('Please enter a valid email or message  ' + '<i class="fa fa-smile-o"></i>');
-        $("#popup").delay(4000).fadeOut("slow", function() {
-            $(this).remove();
-        });
-        popup = $('<h3>').attr('id', 'popup');
-        $('.footer-icons').append(popup);
-    } else {
-        var revString = email.split('').reverse().join('');
-        var rev = revString.slice(4, 9);
-        var string = rev.split('').reverse().join('');
-
-        if (string === 'yahoo') {
-            $('#popup').html('Please enter another email besides a yahoo email  ' + '<i class="fa fa-smile-o"></i>');
-            $("#popup").delay(4000).fadeOut("slow", function() {
-                $(this).remove();
-            });
-            popup = $('<h3>').attr('id', 'popup');
-            $('.footer-icons').append(popup);
-
-            $('[name=mail]').val('');
-            $('[name=message]').val('');
-        } else {
-            $('#popup').html('Thank you for the email ' + '<i class="fa fa-smile-o"></i>');
-            $("#popup").delay(4000).fadeOut("slow", function() {
-                $(this).remove();
-            });
-
-            popup = $('<h3>').attr('id', 'popup');
-            $('.footer-icons').append(popup);
-
-
-
-            $('[name=mail]').val('');
-            $('[name=message]').val('');
-
-
-
-            $.ajax({
-                type: "POST",
-                url: '/send',
-                data: data,
-                success: function() {
-
-                },
-                fail: function() {
-
-                }
-            });
-        }
-    }
-
-};
